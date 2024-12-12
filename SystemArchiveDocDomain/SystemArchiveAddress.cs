@@ -9,6 +9,7 @@ namespace SystemArchiveDocDomain
     public class SystemArchiveAddress
     {
         public Guid Id { get; set; }
+        public  SystemArchiveDocumentStatus Status { get; set; }
         public string? Source { get; set; }
         public string? Result { get; set; }
         public string? PostalCode { get; set; }
@@ -97,21 +98,16 @@ namespace SystemArchiveDocDomain
         public string? TaxOffice { get; set; }
         public string? TaxOfficeLegal { get; set; }
         public string? Timezone { get; set; }
-
         public string? GeoLat { get; set; }
         public string? GeoLon { get; set; }
         public string? BeltwayHit { get; set; }
         public string? BeltwayDistance { get; set; }
-
         public string? Gc_geo { get; set; }
         public string? GcComplete { get; set; }
         public string? GcHouse { get; set; }
         public string? Gc { get; set; }
-
         public string? UnparsedParts { get; set; }
-
         public List<string>? HistoryValues { get; set; }
-
 
         public override string ToString()
         {
@@ -120,6 +116,5 @@ namespace SystemArchiveDocDomain
                 Source, PostalCode, Result, Gc
             );
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SystemArchiveDocDomain;
+using SystemArchiveDocDomain.Interfaces;
 
 namespace SystemArchiveDocDAL;
 
