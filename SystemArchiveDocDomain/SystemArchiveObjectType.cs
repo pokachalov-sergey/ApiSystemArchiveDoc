@@ -2,9 +2,8 @@
 {
     public class SystemArchiveObjectType
     {
+        public Guid Id { get; set; }
         public string Name {  get; set; }
-        public string Description { get; set; }
-        public SystemArchiveAddressPropperty AddressPropperty { get; set; }
-
+        public string? Description { get; set; }
     }
 }

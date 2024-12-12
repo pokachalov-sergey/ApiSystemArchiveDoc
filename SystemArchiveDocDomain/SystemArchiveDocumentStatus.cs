@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace SystemArchiveDocDomain
 {
-    internal class SystemArchiveDocumentStatus
+    public class SystemArchiveDocumentStatus
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-
     }
 }

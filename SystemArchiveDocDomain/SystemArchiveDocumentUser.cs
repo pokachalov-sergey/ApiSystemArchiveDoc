@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SystemArchiveDocDomain
 {
-    internal class SystemArchiveDocumentUser
+    public class SystemArchiveDocumentUser
     {
 
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public Guid ExternalGuid { get; set; }
 
     }
