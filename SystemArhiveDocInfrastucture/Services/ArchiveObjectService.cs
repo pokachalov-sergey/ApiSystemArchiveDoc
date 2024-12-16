@@ -1,14 +1,19 @@
 using SystemArchiveDocDomain.Interfaces;
+using SystemArchiveDocDomain.Interfaces.Services;
 
-namespace ClassLibrary1.Services;
+namespace SystemArchiveDocDomain.Services;
 
-public class ArchiveObjectService
+public class ArchiveObjectService:IArchiveObjectService
 {
     IObjectsRepository _objectsRepository;
     public ArchiveObjectService(IObjectsRepository objectsRepository)
     {
         _objectsRepository=objectsRepository;
     }
-    
-    public 
+
+    public async Task<SystemArchiveObject> GetObjectById(Guid id)
+    {
+      return  await _objectsRepository.GetObjectByIdAsync(id);
+    }
+
 }
