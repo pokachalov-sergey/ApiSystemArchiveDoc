@@ -1,8 +1,6 @@
 ﻿@model ApiSystemArchiveDoc.Models.ArchiveDocumentObjectIndexModel
 
-@{
-    ViewBag.Title = "Талоны";
-}
+
 <style>
     textarea {
         width: 100%;
@@ -28,12 +26,12 @@
     <button class="back  btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад</button>
 </div>
 <div>
-    <button class="back  btn btn-outline-success"
-            href="@Html.ActionLink(" ", "Create", new {@class = "far fa-edit btn btn-outline-primary"})@Html.ActionLink(" ", "Create", new {@class = "far fa-edit btn btn-outline-primary"})">
-        <span class="glyphicon glyphicon-level-up"> </span> Назад
-    </button>
+    <div class="btn-group" role="group" aria-label="...">
+        @Html.ActionLink("Создать", "Create", new {}, new {@class = "far fa-edit btn btn-outline-primary"})
+        
+        @Html.ActionLink("Редактировать", "Edit", new {}, new {@class = "far fa-edit btn btn-outline-primary"})
 </div>
-@Html.ActionLink(" ", "Create", new {@class = "far fa-edit btn btn-outline-primary"})
+</div>
 <p></p>
 
 <div>

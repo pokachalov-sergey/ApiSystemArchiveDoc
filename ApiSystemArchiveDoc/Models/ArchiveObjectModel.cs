@@ -9,7 +9,9 @@ public class ArchiveObjectModel
     public string? Description { get; set; }
     public string StatusStr { get; set; }
     public string ObjectType { get; set; }
+    
     public ArchiveDocumentUserModel Creator;
+    
     public List<string> ObjectTypes { get; set; }
     public double Square { get; set; }
     public string ObjectTaskType { get; set; }

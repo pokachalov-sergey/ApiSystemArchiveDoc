@@ -13,15 +13,46 @@ public class ArchiveDocumentObjectEditModel
         new SelectListItem()
         {
             Selected = true,
-                Text = "ЗУ",
-                Value = ""
-        }
-    }
-    public Dictionary<Guid,String> TaskTypes { get; set; } = new Dictionary<Guid, String>()
+            Text = "ЗУ",
+            Value = ""
+        },
+        new SelectListItem()
+        {
+            Selected = false,
+            Text = "ОКС",
+            Value = ""
+        },
+        new SelectListItem()
+        {
+            Selected = false,
+            Text = "ПОМ",
+            Value = ""
+        },
+        
+    };
+
+    public List<SelectListItem> TaskTypes { get; set; } = new List<SelectListItem>()
     {
-        { Guid.NewGuid(), "ФНС" },
-        { Guid.NewGuid(), "Инвентаризация" },
-        { Guid.NewGuid(), "Суд" },
-    }; 
+        new SelectListItem()
+        {
+            Selected = true,
+            Text = "ФНС",
+            Value = ""
+        },
+        new SelectListItem()
+        {
+            Selected = false,
+            Text = "Инвентаризация",
+            Value = ""
+        },
+        new SelectListItem()
+        {
+            Selected = false,
+            Text = "Инвентаризация ФТП",
+            Value = ""
+        },
+        
+    };
+
     public ArchiveObjectModel ArchiveObject { get; set; } = new ArchiveObjectModel();
 }

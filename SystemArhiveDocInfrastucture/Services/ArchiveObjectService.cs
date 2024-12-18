@@ -1,7 +1,8 @@
+using SystemArchiveDocDomain;
 using SystemArchiveDocDomain.Interfaces;
 using SystemArchiveDocDomain.Interfaces.Services;
 
-namespace SystemArchiveDocDomain.Services;
+namespace SystemArhiveDocInfrastucture.Services;
 
 public class ArchiveObjectService:IArchiveObjectService
 {

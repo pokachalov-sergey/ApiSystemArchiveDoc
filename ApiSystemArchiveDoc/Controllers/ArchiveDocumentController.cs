@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace ApiSystemArchiveDoc.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 [Route("{controller}/{action}")]
-public class ArchiveObjectController : Controller
+public class ArchiveDocumentController : Controller
 {
     // GET
-    public ArchiveObjectController()
+    public ArchiveDocumentController()
     {
     }
 

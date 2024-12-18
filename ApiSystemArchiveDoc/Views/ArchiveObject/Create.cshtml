@@ -1,11 +1,10 @@
 ﻿@model ApiSystemArchiveDoc.Models.ArchiveDocumentObjectEditModel
 
 @{
-    ViewBag.Title = "Редактировать";
+    ViewBag.Title = "Создать";
 }
 
-
-<h2>Редактировать Объект </h2>
+<h2>Создать объект</h2>
 
 <h2> Дата создания: @Html.DisplayFor(m => @DateTime.Now)</h2>
 <hr/>
@@ -39,14 +38,14 @@
         <div class="form-group">
             <label class="control-label col-md-2">Статус</label>
             <div class="col-md-8">
-                    @Html.EditorFor(model => model.ArchiveObject.StatusStr, new {htmlAttributes = new {@class = "form-control disabled", disabled = "disabled"}})
+                    @Html.EditorFor(model => model.ArchiveObject.StatusStr, new {htmlAttributes = new {@class = "form-control disabled"}})
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Плошадь</label>
 
             <div class="col-md-8">
-                @Html.EditorFor(model => model.ArchiveObject.Square, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.EditorFor(model => model.ArchiveObject.Square, new {htmlAttributes = new {@class = "form-control", disabled = "disabled"}})
             </div>
         </div>
         <div class="form-group">
@@ -56,9 +55,10 @@
                 @Html.EditorFor(model => model.ArchiveObject.AddressStr, new {htmlAttributes = new {@class = "form-control", disabled = "disabled"}})
             </div>
         </div>
+        <hr/>
         
-        <button class="back  btn btn-outline-success" type="reset" href="#">Измеить адрес</button>
-        
+        <button class="btn btn-outline-danger" type="reset" href="#">Измеить адрес</button>
+        <hr/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-8">
                 <div class="btn-group" role="group" aria-label="...">
