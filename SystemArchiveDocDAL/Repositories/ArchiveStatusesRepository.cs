@@ -8,7 +8,7 @@ public class ArchiveStatusesRepository:IArchiveStatusesRepository
 {
     SadDbContext? _db;
 
-    public async Task<List<SystemArchiveDocumentStatus>> GetArchiveStatusesAsync(Guid id)
+    public async Task<List<SystemArchiveDocumentStatus>> GetArchiveStatusesAsync()
     {
         return await _db.DocumentStatusEnumerable.ToListAsync();
     }

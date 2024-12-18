@@ -6,6 +6,7 @@
         width: 100%;
         max-width: 100%;
     }
+
     .textwrapper {
         border: 1px solid #999999;
         margin: 5px 0;
@@ -13,7 +14,7 @@
     }
 </style>
 
-<h2>Объекыт</h2>
+<h2>Объекты недвижимости</h2>
 
 @*<h2> @Html.DisplayFor(modelItem => Model.DepartmentName)</h2>
 <h2> @Html.DisplayFor(modelItem => Model.ServiceName)</h2>
@@ -23,17 +24,20 @@
         new {htmlAttributes = new {@class = "form-control", @id = "datepicker"}})
 </h2>*@
 <div>
-    <button class="back  btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад</button>
+
 </div>
 <div>
     <div class="btn-group" role="group" aria-label="...">
-        @Html.ActionLink("Создать", "Create", new {}, new {@class = "far fa-edit btn btn-outline-primary"})
-        
-        @Html.ActionLink("Редактировать", "Edit", new {}, new {@class = "far fa-edit btn btn-outline-primary"})
-</div>
+        <button class="back  btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад
+        </button>
+        @Html.ActionLink("  Создать новый объект архива", "Create", new { }, new
+        {
+            @class = " btn btn-outline-primary",
+            role = "button"
+        })
+    </div>
 </div>
 <p></p>
-
 <div>
     <table class="table table-striped display " id="datatable">
         <thead class="">
@@ -86,14 +90,16 @@
                     </span>
 
                 </td>
-               
+
                 <td>
                     <div class="btn-group" role="group" aria-label="...">
-                        @Html.ActionLink(" ", "Edit", new {id = item.Id}, new {@class = "far fa-edit btn btn-outline-primary"})
-                        <button class="setLock far fa-times-circle btn btn-outline-danger" href="#" data-id="@item.Id"></button>
-                        @Html.ActionLink(" ", "Print", new {id = item.Id, depId = @Guid.Empty, date = DateTime.Now},
-                            new {@class = "fas fa-print btn btn-outline-success"})
-                        <a class="far fa-check-circle btn btn-outline-success approve" href="#" data-toggle="modal" data-target="#myModal" data-id="@item.Id"> </a>
+                        @Html.ActionLink(" ", "Edit", new { id = item.Id }, new { @class = "far fa-edit btn btn-outline-primary" })
+                        <button class="setLock far fa-times-circle btn btn-outline-danger" href="#"
+                                data-id="@item.Id"></button>
+                        @Html.ActionLink(" ", "Print", new { id = item.Id, depId = @Guid.Empty, date = DateTime.Now },
+                            new { @class = "fas fa-print btn btn-outline-success" })
+                        <a class="far fa-check-circle btn btn-outline-success approve" href="#" data-toggle="modal"
+                           data-target="#myModal" data-id="@item.Id"> </a>
                     </div>
                 </td>
             </tr>
@@ -110,11 +116,12 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                @Html.TextArea("description", new {@id = "description", @class = "textwrapper"})
+                @Html.TextArea("description", new { @id = "description", @class = "textwrapper" })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-default" data-dismiss="modal">Отмена</button>
-                <button type="button" id="mySubmit" data-dismiss="modal" class="btn btn-outline-primary">Сохранить</button>
+                <button type="button" id="mySubmit" data-dismiss="modal" class="btn btn-outline-primary">Сохранить
+                </button>
 
             </div>
         </div>
@@ -136,34 +143,37 @@
 
 
 <div>
-    <button class="back  btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад</button>
+    <button class="back btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад
+    </button>
 </div>
 <script>
-    $('.back').click(function () { window.history.back(); });
+    $('.back').click(function () {
+        window.history.back();
+    });
 </script>
 
 
 <script>
-  $( function() {
-      
-      $("#datepicker").val('@DateTime.Now.ToString("yyyy-MM-dd")');
-      $("#datepicker").change(function () {
-          $(location).attr("href"," @Url.Action("ShowTicket", "Ticket", new {id = @Guid.Empty})"+"?date="+$("#datepicker").val());
-      })
-  } );
-  
+    $(function () {
+
+        $("#datepicker").val('@DateTime.Now.ToString("yyyy-MM-dd")');
+        $("#datepicker").change(function () {
+            $(location).attr("href", " @Url.Action("ShowTicket", "Ticket", new { id = @Guid.Empty })" + "?date=" + $("#datepicker").val());
+        })
+    });
+
     //Everytime we press delete in the table row
-  $('.approve').click(function(e) {
+    $('.approve').click(function (e) {
         e.preventDefault();
         var id = $(this).data('id');
         $('#item-to-delete').val(id);
-  });
+    });
 
-  $('.setLock').click(function() {
+    $('.setLock').click(function () {
 
         var id = $(this).data('id');
 
-        $.post('@Url.Action("SetLock")', { id: id })
+        $.post('@Url.Action("SetLock")', {id: id})
             .done(function (data) {
                 var status = $('#' + id).text().replace(/\s+/g, '');
 
@@ -188,11 +198,11 @@
     });
 
     //Everytime we press sumbit on the modal form...
-    $('#mySubmit').click(function() {
+    $('#mySubmit').click(function () {
 
         var id = $('#item-to-delete').val();
         var description = $('#description').val();
-        $.post('@Url.Action("Approve")', { id: id, description: description })
+        $.post('@Url.Action("Approve")', {id: id, description: description})
             .done(function (data) {
                 $('#' + id).text("Разрешен");
             })
@@ -213,17 +223,17 @@
 </script>
 
 <script type="text/javascript">
-       $(document).ready(function () {
-             $.fn.dataTable.ext.classes.sPageButton = 'btn btn-outline-info';
-                      $.fn.dataTable.ext.classes.sPageButtonActive = 'btn btn-outline-info';
-                      $.fn.dataTable.ext.classes.sPageButtonDisabled = 'btn btn-outline-info disabled';
-           $('#datatable').DataTable({
-              stateSave: true,
-               language: {
-                   url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/ru.json',
-                   @*url: '@Url.Content("~/Content/datatableRus.json")'*@
-               }
-           } );
+    $(document).ready(function () {
+        $.fn.dataTable.ext.classes.sPageButton = 'btn btn-outline-info';
+        $.fn.dataTable.ext.classes.sPageButtonActive = 'btn btn-outline-info';
+        $.fn.dataTable.ext.classes.sPageButtonDisabled = 'btn btn-outline-info disabled';
+        $('#datatable').DataTable({
+            stateSave: true,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/ru.json',
+                @*url: '@Url.Content("~/Content/datatableRus.json")'*@
+            }
+        });
 
-       });
+    });
 </script>

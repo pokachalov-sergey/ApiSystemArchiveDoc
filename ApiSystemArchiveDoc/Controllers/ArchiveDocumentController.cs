@@ -24,7 +24,7 @@ public class ArchiveDocumentController : Controller
     }
     public IActionResult Create()
     {
-        return View("Edit",new ArchiveDocumentObjectEditModel());
+        return View("Create",new ArchiveDocumentObjectEditModel());
     }
     
     
