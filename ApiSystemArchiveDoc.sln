@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiSystemArchiveDoc", "ApiSystemArchiveDoc\ApiSystemArchiveDoc.csproj", "{4CA1B8DE-3A96-4C0D-A3DA-A0FC028E6E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiSystemArchiveDoc", "ApiSystemArchiveDoc\ApiSystemArchiveDoc.csproj", "{4CA1B8DE-3A96-4C0D-A3DA-A0FC028E6E8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemArchiveDocDomain", "SystemArchiveDocDomain\SystemArchiveDocDomain.csproj", "{06713BA9-1260-4A3C-8E77-5B916EBB3280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemArchiveDocDomain", "SystemArchiveDocDomain\SystemArchiveDocDomain.csproj", "{06713BA9-1260-4A3C-8E77-5B916EBB3280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemArchiveDocDAL", "SystemArchiveDocDAL\SystemArchiveDocDAL.csproj", "{FB4A8833-21E5-4328-A5CD-B2C18B66350C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemArchiveDocDAL", "SystemArchiveDocDAL\SystemArchiveDocDAL.csproj", "{FB4A8833-21E5-4328-A5CD-B2C18B66350C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemArhiveDocInfrastucture", "SystemArhiveDocInfrastucture\SystemArhiveDocInfrastucture.csproj", "{15184053-0AE6-46EF-B150-EEA6CF3581FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemArhiveDocInfrastucture", "SystemArhiveDocInfrastucture\SystemArhiveDocInfrastucture.csproj", "{15184053-0AE6-46EF-B150-EEA6CF3581FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

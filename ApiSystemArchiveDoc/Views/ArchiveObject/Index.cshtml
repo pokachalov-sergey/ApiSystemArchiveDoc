@@ -1,0 +1,231 @@
+﻿@model ApiSystemArchiveDoc.Models.ArchiveDocumentObjectIndexModel
+
+@{
+    ViewBag.Title = "Талоны";
+}
+<style>
+    textarea {
+        width: 100%;
+        max-width: 100%;
+    }
+    .textwrapper {
+        border: 1px solid #999999;
+        margin: 5px 0;
+        padding: 3px;
+    }
+</style>
+
+<h2>Объекыт</h2>
+
+@*<h2> @Html.DisplayFor(modelItem => Model.DepartmentName)</h2>
+<h2> @Html.DisplayFor(modelItem => Model.ServiceName)</h2>
+<h2> @Html.DisplayFor(modelItem => Model.PlanOfDateName)</h2>
+<h2>
+    @Html.EditorFor(modelItem => Model.StartDate,
+        new {htmlAttributes = new {@class = "form-control", @id = "datepicker"}})
+</h2>*@
+<div>
+    <button class="back  btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад</button>
+</div>
+<div>
+    <button class="back  btn btn-outline-success"
+            href="@Html.ActionLink(" ", "Create", new {@class = "far fa-edit btn btn-outline-primary"})@Html.ActionLink(" ", "Create", new {@class = "far fa-edit btn btn-outline-primary"})">
+        <span class="glyphicon glyphicon-level-up"> </span> Назад
+    </button>
+</div>
+@Html.ActionLink(" ", "Create", new {@class = "far fa-edit btn btn-outline-primary"})
+<p></p>
+
+<div>
+    <table class="table table-striped display " id="datatable">
+        <thead class="">
+        <tr>
+            <th width="12%">
+                Тип
+            </th>
+            <th width="8%">
+                Дата создания
+            </th>
+            <th width="20%">
+                Статус
+            </th>
+            <th width="10%">
+                Адрес
+            </th>
+            <th width="10%">
+                Площадь
+            </th>
+            <th width="10%">
+                Тип задания
+            </th>
+            <th width="20%">
+                Действия
+            </th>
+        </tr>
+        </thead>
+        @foreach (var item in Model.ArchiveObjects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObjectType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusStr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddressStr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Square)
+                </td>
+
+                <td>
+                    <span id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.ObjectTaskType)
+                    </span>
+
+                </td>
+               
+                <td>
+                    <div class="btn-group" role="group" aria-label="...">
+                        @Html.ActionLink(" ", "Edit", new {id = item.Id}, new {@class = "far fa-edit btn btn-outline-primary"})
+                        <button class="setLock far fa-times-circle btn btn-outline-danger" href="#" data-id="@item.Id"></button>
+                        @Html.ActionLink(" ", "Print", new {id = item.Id, depId = @Guid.Empty, date = DateTime.Now},
+                            new {@class = "fas fa-print btn btn-outline-success"})
+                        <a class="far fa-check-circle btn btn-outline-success approve" href="#" data-toggle="modal" data-target="#myModal" data-id="@item.Id"> </a>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Оставте отметку о завершении талона</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                @Html.TextArea("description", new {@id = "description", @class = "textwrapper"})
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-default" data-dismiss="modal">Отмена</button>
+                <button type="button" id="mySubmit" data-dismiss="modal" class="btn btn-outline-primary">Сохранить</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="alertTemplate" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="alert alert-danger alert-dismissible " role="alert">
+            <strong> Ошибка!</strong><span id="alertText"></span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="item-to-delete"></div>
+
+
+<div>
+    <button class="back  btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад</button>
+</div>
+<script>
+    $('.back').click(function () { window.history.back(); });
+</script>
+
+
+<script>
+  $( function() {
+      
+      $("#datepicker").val('@DateTime.Now.ToString("yyyy-MM-dd")');
+      $("#datepicker").change(function () {
+          $(location).attr("href"," @Url.Action("ShowTicket", "Ticket", new {id = @Guid.Empty})"+"?date="+$("#datepicker").val());
+      })
+  } );
+  
+    //Everytime we press delete in the table row
+  $('.approve').click(function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        $('#item-to-delete').val(id);
+  });
+
+  $('.setLock').click(function() {
+
+        var id = $(this).data('id');
+
+        $.post('@Url.Action("SetLock")', { id: id })
+            .done(function (data) {
+                var status = $('#' + id).text().replace(/\s+/g, '');
+
+                if (status == "Активен")
+                    $('#' + id).text("Заблокирован");
+                else
+                    $('#' + id).text("Активен");
+            })
+            .fail(function (data) {
+                if (data.statusText == "99")
+                    $('#alertText').text(" Талон аннулирован");
+                if (data.statusText == "98")
+                    $('#alertText').text(" Талон заблокирован");
+                if (data.statusText == "3")
+                    $('#alertText').text(" Талон уже разрешен");
+                if (data.statusText == "4")
+                    $('#alertText').text(" Талон зарезервирован");
+                if (data.statusText == "0")
+                    $('#alertText').text(" Не возможно выполнить операцию над талоном");
+                $('#alertTemplate').modal();
+            })
+    });
+
+    //Everytime we press sumbit on the modal form...
+    $('#mySubmit').click(function() {
+
+        var id = $('#item-to-delete').val();
+        var description = $('#description').val();
+        $.post('@Url.Action("Approve")', { id: id, description: description })
+            .done(function (data) {
+                $('#' + id).text("Разрешен");
+            })
+            .fail(function (data) {
+                if (data.statusText == "99")
+                    $('#alertText').text(" Талон аннулирован");
+                if (data.statusText == "98")
+                    $('#alertText').text(" Талон заблокирован");
+                if (data.statusText == "3")
+                    $('#alertText').text(" Талон уже разрешен");
+                if (data.statusText == "0")
+                    $('#alertText').text(" Не возможно выполнить операцию над талоном");
+
+                $('#alertTemplate').modal();
+            })
+    });
+
+</script>
+
+<script type="text/javascript">
+       $(document).ready(function () {
+             $.fn.dataTable.ext.classes.sPageButton = 'btn btn-outline-info';
+                      $.fn.dataTable.ext.classes.sPageButtonActive = 'btn btn-outline-info';
+                      $.fn.dataTable.ext.classes.sPageButtonDisabled = 'btn btn-outline-info disabled';
+           $('#datatable').DataTable({
+              stateSave: true,
+               language: {
+                   url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/ru.json',
+                   @*url: '@Url.Content("~/Content/datatableRus.json")'*@
+               }
+           } );
+
+       });
+</script>

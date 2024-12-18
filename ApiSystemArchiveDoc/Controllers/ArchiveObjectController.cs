@@ -1,3 +1,4 @@
+using ApiSystemArchiveDoc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -11,10 +12,19 @@ public class ArchiveObjectController : Controller
     {
     }
 
-    public IActionResult Index()
+    public IActionResult Create()
     {
-        return View();
+        return View(new ArchiveDocumentObjectIndexModel());
     }
+    public IActionResult Edit()
+    {
+        return View(new ArchiveDocumentObjectIndexModel());
+    }
+    public IActionResult Delete()
+    {
+        return View(new ArchiveDocumentObjectIndexModel());
+    }
+    
     
     
 }

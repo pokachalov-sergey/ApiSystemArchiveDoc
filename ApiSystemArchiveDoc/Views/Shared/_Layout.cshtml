@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оцифровка архива</title>
+    <script src="~/js/bundles.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-multiselect.min.js"></script>
+    <link href="~/lib/fontawesome/fontawesome-free-6.0.0-beta3-web/css/all.css" rel="stylesheet">
+    <link href="~/css/site.min.css" rel="stylesheet">
+    <link href="~/lib/bootstrap/dist/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" type="image/ico" href="@Url.Content("~/favicon.ico")">
+    <link href="~/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
+</head>
+<body>
+
+<div class="container">
+     <div class="preloader" style="display: none">
+         <div class="loader"></div>
+         </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+       
+        
+        <a class="navbar-brand" href="#">
+            <img src="~/img/logo.png" width="80px" class="d-inline-block fa-align-center" alt="">
+        </a>  
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id='navbarToggler' >
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    @Html.ActionLink("Оцифровка архива онлайн", "Index",
+                        "Home", new {}, new {@class = "nav-link"})
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Объекты", "Index",
+                        "ArchiveObject", new {}, new {@class = "nav-link"})
+                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("superuser"))
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink(" Пользователи", "Index", "AppUsers", new {}
+                                , new {@class = "nav-link"})
+                        </li>
+                    }
+                    @if (User.IsInRole("superuser") || User.IsInRole("admin"))
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink(" Отделения", "Index", "department", new {}
+                                , new {@class = "nav-link"})
+                        </li>
+                    }
+                    <li class="nav-item">
+                        @Html.ActionLink(" Талоны", "ShowTicketForDepartments", "Ticket",
+                            new {depatrmentsId = new List<long>(),
+                                servicesCode = new List<String>(){"0"}, date = DateTime.Now,stopdate = DateTime.Now.AddDays(1)}, new {@class = "nav-link"})
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink(" Отчеты", "Index", "Report",
+                            new {depatrmentsId = new List<long>(){0},
+                                servicesCode = new List<String>(){"0"}, date = DateTime.Now,stopdate = DateTime.Now.AddDays(1)}, new {@class = "nav-link"})
+                    </li>
+                    @if (User.IsInRole("superuser"))
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("Настройки талона", "Edit", "Setting", new {}
+                                , new {@class = "nav-link"})
+                        </li>
+                    }
+                }
+            </ul>
+
+            @Html.Partial("_LoginPartial")
+        </div>
+    </nav>
+    
+    
+</div>
+
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+ 
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Оцифровка архива</p>
+    </footer>
+</div>
+
+</body>
+</html>

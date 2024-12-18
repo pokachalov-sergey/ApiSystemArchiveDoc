@@ -11,4 +11,8 @@
       <ProjectReference Include="..\SystemArchiveDocDomain\SystemArchiveDocDomain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="WebModel\" />
+    </ItemGroup>
+
 </Project>
