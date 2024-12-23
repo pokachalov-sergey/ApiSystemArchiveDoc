@@ -15,16 +15,7 @@
 </style>
 
 <h2>Объекты недвижимости</h2>
-
-@*<h2> @Html.DisplayFor(modelItem => Model.DepartmentName)</h2>
-<h2> @Html.DisplayFor(modelItem => Model.ServiceName)</h2>
-<h2> @Html.DisplayFor(modelItem => Model.PlanOfDateName)</h2>
-<h2>
-    @Html.EditorFor(modelItem => Model.StartDate,
-        new {htmlAttributes = new {@class = "form-control", @id = "datepicker"}})
-</h2>*@
 <div>
-
 </div>
 <div>
     <div class="btn-group" role="group" aria-label="...">
@@ -72,13 +63,13 @@
                     @Html.DisplayFor(modelItem => item.ObjectType)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Created)
+                    @Html.DisplayFor(modelItem => item.CreateDateTime)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StatusStr)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AddressStr)
+                    @Html.DisplayFor(modelItem => item.Address.FullAddress)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Square)

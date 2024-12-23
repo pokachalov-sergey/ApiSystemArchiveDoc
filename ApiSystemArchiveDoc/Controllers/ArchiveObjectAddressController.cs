@@ -7,28 +7,23 @@ namespace ApiSystemArchiveDoc.Controllers;
 [Route("{controller}/{action}")]
 public class ArchiveObjectAddressController : Controller
 {
-    // GET
-    public ArchiveObjectAddressController()
-    {
-    }
-
- 
-    public IActionResult Index()
-    {
-        return View("Index",new ArchiveDocumentObjectIndexModel());
-    }
    
-    public IActionResult Edit()
+    public IActionResult Edit(Guid id)
     {
-        return View("Edit",new ArchiveDocumentObjectEditModel());
+        return View("Edit",new ArchiveObjectAddressCreateOrEditModel());
     }
     public IActionResult Create()
     {
-        return View("Create",new ArchiveDocumentObjectEditModel());
+        return View("Create",new ArchiveObjectAddressCreateOrEditModel());
+    }
+    [HttpPost]
+    public IActionResult Create(ArchiveObjectAddressCreateOrEditModel model)
+    {
+        return View("Create",new ArchiveObjectAddressCreateOrEditModel());
     }
     public IActionResult Delete()
     {
-        return View("Create",new ArchiveDocumentObjectEditModel());
+        return View("Create",new ArchiveObjectAddressCreateOrEditModel());
     }
     
     

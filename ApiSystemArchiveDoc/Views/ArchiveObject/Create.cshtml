@@ -1,4 +1,6 @@
-﻿@model ApiSystemArchiveDoc.Models.ArchiveDocumentObjectEditModel
+﻿@using ApiSystemArchiveDoc.Models
+@using Microsoft.CodeAnalysis.Differencing
+@model ApiSystemArchiveDoc.Models.ArchiveDocumentObjectEditModel
 
 @{
     ViewBag.Title = "Создать";
@@ -14,15 +16,7 @@
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-        @*@Html.HiddenFor(m => m.Ticket.Id)
-        @Html.HiddenFor(m => m.Ticket.StatusId)
-        @Html.HiddenFor(m => m.Ticket.IsLock)
-        @Html.HiddenFor(m => m.Ticket.IsReserved)
-        @Html.HiddenFor(m => m.Ticket.IsLive)
-        @Html.HiddenFor(m => m.Ticket.isClosed)
-        @Html.HiddenFor(m => m.Ticket.ServiceId)
-        @Html.HiddenFor(m => m.Ticket.PlanSpanId)
-        @Html.HiddenFor(m => m.RefLink)*@
+       
         <div class="form-group">
             <label class="control-label col-md-2">Тип объекта</label>
             <div class="col-md-8">
@@ -38,33 +32,111 @@
         <div class="form-group">
             <label class="control-label col-md-2">Статус</label>
             <div class="col-md-8">
-                    @Html.EditorFor(model => model.ArchiveObject.StatusStr, new {htmlAttributes = new {@class = "form-control disabled"}})
+                    @Html.EditorFor(model => model.ArchiveObject.StatusStr, new {htmlAttributes = new {@class = "form-control", disabled = "disabled"}})
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Плошадь</label>
 
             <div class="col-md-8">
-                @Html.EditorFor(model => model.ArchiveObject.Square, new {htmlAttributes = new {@class = "form-control", disabled = "disabled"}})
+                @Html.EditorFor(model => model.ArchiveObject.Square, new {htmlAttributes = new {@class = "form-control"}})
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Адрес</label>
-
             <div class="input-group mb-3 col-md-8">
-                @Html.EditorFor(model => model.ArchiveObject.AddressStr, new {htmlAttributes = new {@class = "form-control", disabled = "disabled"}})
-                
+                @if (Model.ArchiveObject.Address != null
+                     && !string.IsNullOrEmpty(Model.ArchiveObject.Address.FullAddress))
+                {
+                    @Html.EditorFor(model => model.ArchiveObject.Address.FullAddress, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                    <div class="input-group-append">
+                        @Html.ActionLink("Измеить адрес", "Edit","ArchiveObjectAddress", new {id = Model.ArchiveObject.Address.Id }, new
+                        {
+                            @class = " btn btn-outline-danger",
+                            role = "button"
+                        })
+                        
+                    </div>
+                }
+                else
+                {
+                @Html.EditorFor(model => model.ArchiveObject.Address.FullAddress, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                 <div class="input-group-append">
-                    <button class="btn btn-outline-danger" type="reset" href="#">Измеить адрес</button>
-                    
+                    @Html.ActionLink("Добавть адрес", "Create", "ArchiveObjectAddress",new { }, new
+                    {
+                        @class = " btn btn-outline-danger",
+                        role = "button"
+                    })
+                   
                 </div>
+                }
             </div>
             
             <div class="col-md-8">
             </div>
         </div>
-        <hr/>
+        <hr>
+        <p></p>
         
+        <div>
+            <h4>
+                Сканобразы докуметов
+            </h4> 
+            <table class="table table-striped display " id="datatable">
+                <thead class="">
+                <tr>
+                    <th width="12%">
+                        Тип
+                    </th>
+                    <th width="8%">
+                        Дата создания
+                    </th>
+                    <th width="20%">
+                        Статус
+                    </th>
+                    <th width="10%">
+                        Наименование
+                    </th>
+                    
+                    <th width="20%">
+                        Действия
+                    </th>
+                </tr>
+                </thead>
+                @foreach (var item in Model.ArchiveObject.Documents)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateDateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusStr)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentName)
+                        </td>
+                       
+                        
+
+                        <td>
+                            <div class="btn-group" role="group" aria-label="...">
+                                @Html.ActionLink(" ", "Edit", new { id = item.Id }, new { @class = "far fa-edit btn btn-outline-primary" })
+                                <button class="setLock far fa-times-circle btn btn-outline-danger" href="#"
+                                        data-id="@item.Id"></button>
+                                @Html.ActionLink(" ", "Print", new { id = item.Id, depId = @Guid.Empty, date = DateTime.Now },
+                                    new { @class = "fas fa-print btn btn-outline-success" })
+                                <a class="far fa-check-circle btn btn-outline-success approve" href="#" data-toggle="modal"
+                                   data-target="#myModal" data-id="@item.Id"> </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
        
         <hr/>
         <div class="form-group">

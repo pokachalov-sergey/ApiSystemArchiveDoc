@@ -1,9 +1,7 @@
 namespace ApiSystemArchiveDoc.Models;
 
-public class ArchiveObjectAddressModel
+public class ArchiveObjectAddressModel:AbstractArchiveModel
 {
-    public DateTime Created { get; set; }
-    public String StatusStr { get; set; }
     public string? PostalCode { get; set; }
     public string? Country { get; set; }
     public string? FederalDistrict { get; set; }
@@ -69,11 +67,6 @@ public class ArchiveObjectAddressModel
     public string? GeoLat { get; set; }
     public string? GeoLon { get; set; }
 
-    public override string ToString()
-    {
-        return string.Format(
-            "[AddressData: source={0}, postalCode={1}, result={2}, qc={3}]",
-            PostalCode, String.Empty,String.Empty,string.Empty
-        );
-    }
+    public string FullAddress { get; set; }
+  
 }

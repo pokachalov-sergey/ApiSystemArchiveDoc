@@ -1,6 +1,7 @@
 namespace ApiSystemArchiveDoc.Models;
 
-public class ArchiveDocumentModel
+public class ArchiveDocumentModel:AbstractArchiveModel
 {
-    public List<SystemArchiveDocDomain.SystemArchiveObject> SystemArchiveObjects { get; set; }
+    public string DocumentType { get; set; }
+    public string DocumentName { get; set; }
 }

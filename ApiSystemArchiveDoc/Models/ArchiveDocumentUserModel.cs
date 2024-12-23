@@ -1,6 +1,6 @@
 namespace ApiSystemArchiveDoc.Models;
 
-public class ArchiveDocumentUserModel
+public class ArchiveDocumentUserModel:AbstractArchiveModel
 {
     
 }

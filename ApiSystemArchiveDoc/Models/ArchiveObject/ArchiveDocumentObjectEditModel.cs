@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ApiSystemArchiveDoc.Models;
 
-public class ArchiveDocumentObjectEditModel
+public class ArchiveDocumentObjectEditModel:AbstractArchiveModel
 {
     public ArchiveDocumentObjectEditModel()
     {

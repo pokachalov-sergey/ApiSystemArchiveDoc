@@ -1,6 +1,6 @@
 namespace ApiSystemArchiveDoc.Models;
 
-public class ArchiveDocumentObjectIndexModel
+public class ArchiveDocumentObjectIndexModel:AbstractArchiveModel
 {
     public ArchiveDocumentObjectIndexModel()
     {
