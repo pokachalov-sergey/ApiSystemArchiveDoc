@@ -123,8 +123,8 @@
 
 
 <script>
-    @*
-    $('.back').click(function () {
+    $('.back').click(function () { window.history.back(); });
+    @*    $('.back').click(function () {
         var query = '@Model.RefLink';
         var f = query.replaceAll('&amp;','&');
         

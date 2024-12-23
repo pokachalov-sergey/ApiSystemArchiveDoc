@@ -4,6 +4,8 @@ namespace ApiSystemArchiveDoc.Models;
 
 public class ArchiveDocumentObjectEditModel:AbstractArchiveModel
 {
+    public string RefLink { get; set; }
+
     public ArchiveDocumentObjectEditModel()
     {
     }

@@ -15,16 +15,22 @@ public class ArchiveDocumentController : Controller
  
     public IActionResult Index()
     {
-        return View("Index",new ArchiveDocumentObjectIndexModel());
+        return View("Index",new ArchiveDocumentObjectIndexModel()        {
+            RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
+        });
     }
    
     public IActionResult Edit()
     {
-        return View("Edit",new ArchiveDocumentObjectEditModel());
+        return View("Edit",new ArchiveDocumentObjectEditModel()        {
+            RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
+        });
     }
     public IActionResult Create()
     {
-        return View("Create",new ArchiveDocumentObjectEditModel());
+        return View("Create",new ArchiveDocumentObjectEditModel()        {
+            RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
+        });
     }
     
     

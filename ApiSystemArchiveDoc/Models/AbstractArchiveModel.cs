@@ -9,5 +9,6 @@ public abstract class AbstractArchiveModel
     public string? EditUser { get; set; }
     public string StatusStr { get; set; }
     public Guid StatusId { get; set; }
+    public string RefLink { get; set; }
 
 }
