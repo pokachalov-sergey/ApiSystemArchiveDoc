@@ -28,12 +28,33 @@ public class ArchiveObjectController : Controller
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
         });
     }
+    [HttpGet]
     public IActionResult Create()
     {
+       
         return View("Create",new ArchiveDocumentObjectEditModel()
         {
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
         });
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(ArchiveDocumentObjectEditModel model)
+    {
+        if (!ModelState.IsValid)
+           
+        return View("Create",new ArchiveDocumentObjectEditModel()
+        {
+            RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
+        });
+        else
+        {
+                 
+            return View("Create",new ArchiveDocumentObjectEditModel()
+            {
+                RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
+            });
+        }
     }
     
     

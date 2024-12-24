@@ -62,14 +62,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-8">
                 <div class="btn-group" role="group" aria-label="...">
-                        @if (User.IsInRole("admin") || User.IsInRole("superuser"))
-                        {
-                            <input type="submit" value="Сохранить" class="btn btn-outline-danger"/>
-                        }
-                        else
-                        {
                             <input type="submit" value="Сохранить" disabled="disabled" class="btn btn-outline-danger"/>
-                        }
                     <button class="back  btn btn-outline-success" type="reset" href="#">Отмена</button>
                 </div>
             </div>

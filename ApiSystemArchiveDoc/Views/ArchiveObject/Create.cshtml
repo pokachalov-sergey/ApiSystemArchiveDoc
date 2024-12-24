@@ -21,13 +21,16 @@
             <label class="control-label col-md-2">Тип объекта</label>
             <div class="col-md-8">
                 @Html.DropDownListFor(model => model.ArchiveObject.ObjectType, selectList: Model.ObjectTypes, htmlAttributes: new {@class = "form-control"}, optionLabel: "Выберите статус")
-            </div>
+                @Html.ValidationMessageFor(model => model.ArchiveObject.ObjectType, "", new {@class = "text-danger"})
+            
+                </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Вид задания</label>
             <div class="col-md-8">
-                @Html.DropDownListFor(model => model.ArchiveObject.ObjectType, selectList: Model.TaskTypes, htmlAttributes: new {@class = "form-control"}, optionLabel: "Выберите статус")
-            </div>
+                @Html.DropDownListFor(model => model.ArchiveObject.ObjectTaskType, selectList: Model.TaskTypes, htmlAttributes: new {@class = "form-control"}, optionLabel: "Выберите статус")
+                @Html.ValidationMessageFor(model => model.ArchiveObject.ObjectTaskType, "", new {@class = "text-danger"})
+                </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Статус</label>
@@ -78,78 +81,12 @@
         <hr>
         <p></p>
         
-        <div>
-            <h4>
-                Сканобразы докуметов
-            </h4> 
-            <table class="table table-striped display " id="datatable">
-                <thead class="">
-                <tr>
-                    <th width="12%">
-                        Тип
-                    </th>
-                    <th width="8%">
-                        Дата создания
-                    </th>
-                    <th width="20%">
-                        Статус
-                    </th>
-                    <th width="10%">
-                        Наименование
-                    </th>
-                    
-                    <th width="20%">
-                        Действия
-                    </th>
-                </tr>
-                </thead>
-                @foreach (var item in Model.ArchiveObject.Documents)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentType)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreateDateTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StatusStr)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentName)
-                        </td>
-                       
-                        
-
-                        <td>
-                            <div class="btn-group" role="group" aria-label="...">
-                                @Html.ActionLink(" ", "Edit", new { id = item.Id }, new { @class = "far fa-edit btn btn-outline-primary" })
-                                <button class="setLock far fa-times-circle btn btn-outline-danger" href="#"
-                                        data-id="@item.Id"></button>
-                                @Html.ActionLink(" ", "Print", new { id = item.Id, depId = @Guid.Empty, date = DateTime.Now },
-                                    new { @class = "fas fa-print btn btn-outline-success" })
-                                <a class="far fa-check-circle btn btn-outline-success approve" href="#" data-toggle="modal"
-                                   data-target="#myModal" data-id="@item.Id"> </a>
-                            </div>
-                        </td>
-                    </tr>
-                }
-
-            </table>
-        </div>
-       
+     
         <hr/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-8">
                 <div class="btn-group" role="group" aria-label="...">
-                        @if (User.IsInRole("admin") || User.IsInRole("superuser"))
-                        {
                             <input type="submit" value="Сохранить" class="btn btn-outline-danger"/>
-                        }
-                        else
-                        {
-                            <input type="submit" value="Сохранить" disabled="disabled" class="btn btn-outline-danger"/>
-                        }
                     <button class="back  btn btn-outline-success" type="reset" href="#">Отмена</button>
                 </div>
             </div>
