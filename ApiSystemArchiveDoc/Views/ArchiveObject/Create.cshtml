@@ -5,44 +5,38 @@
 @{
     ViewBag.Title = "Создать";
 }
-
 <h2>Создать объект</h2>
-
 <h2> Дата создания: @Html.DisplayFor(m => @DateTime.Now)</h2>
 <hr/>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             <label class="control-label col-md-2">Тип объекта</label>
             <div class="col-md-8">
-                @Html.DropDownListFor(model => model.ArchiveObject.ObjectType, selectList: Model.ObjectTypes, htmlAttributes: new {@class = "form-control"}, optionLabel: "Выберите статус")
-                @Html.ValidationMessageFor(model => model.ArchiveObject.ObjectType, "", new {@class = "text-danger"})
-            
-                </div>
+                @Html.DropDownListFor(model => model.ArchiveObject.ObjectType, selectList: Model.ObjectTypes, htmlAttributes: new { @class = "form-control" }, optionLabel: "Выберите статус")
+                @Html.ValidationMessageFor(model => model.ArchiveObject.ObjectType, "", new { @class = "text-danger" })
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Вид задания</label>
             <div class="col-md-8">
-                @Html.DropDownListFor(model => model.ArchiveObject.ObjectTaskType, selectList: Model.TaskTypes, htmlAttributes: new {@class = "form-control"}, optionLabel: "Выберите статус")
-                @Html.ValidationMessageFor(model => model.ArchiveObject.ObjectTaskType, "", new {@class = "text-danger"})
-                </div>
+                @Html.DropDownListFor(model => model.ArchiveObject.ObjectTaskType, selectList: Model.TaskTypes, htmlAttributes: new { @class = "form-control" }, optionLabel: "Выберите статус")
+                @Html.ValidationMessageFor(model => model.ArchiveObject.ObjectTaskType, "", new { @class = "text-danger" })
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Статус</label>
             <div class="col-md-8">
-                    @Html.EditorFor(model => model.ArchiveObject.StatusStr, new {htmlAttributes = new {@class = "form-control", disabled = "disabled"}})
+                @Html.EditorFor(model => model.ArchiveObject.StatusStr, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2">Плошадь</label>
-
             <div class="col-md-8">
-                @Html.EditorFor(model => model.ArchiveObject.Square, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.EditorFor(model => model.ArchiveObject.Square, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
         <div class="form-group">
@@ -53,40 +47,59 @@
                 {
                     @Html.EditorFor(model => model.ArchiveObject.Address.FullAddress, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                     <div class="input-group-append">
-                        @Html.ActionLink("Измеить адрес", "Edit","ArchiveObjectAddress", new {id = Model.ArchiveObject.Address.Id }, new
+                        @Html.ActionLink("Измеить адрес", "Edit", "ArchiveObjectAddress", new { id = Model.ArchiveObject.Address.Id }, new
                         {
                             @class = " btn btn-outline-danger",
                             role = "button"
                         })
-                        
                     </div>
                 }
                 else
                 {
-                @Html.EditorFor(model => model.ArchiveObject.Address.FullAddress, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
-                <div class="input-group-append">
-                    @Html.ActionLink("Добавть адрес", "Create", "ArchiveObjectAddress",new { }, new
+                    @if (Model.ArchiveObject.Id != null && Model.ArchiveObject.Id != Guid.Empty)
                     {
-                        @class = " btn btn-outline-danger",
-                        role = "button"
-                    })
-                   
-                </div>
+                        @Html.EditorFor(model => model.ArchiveObject.Address.FullAddress, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                        <div class="input-group-append">
+                            @Html.ActionLink("Добавть адрес", "Create", "ArchiveObjectAddress", new { objectId = Model.ArchiveObject.Id }, new
+                            {
+                                @class = " btn btn-outline-danger",
+                                role = "button"
+                            })
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.ArchiveObject.Address.FullAddress, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control", disabled = "disabled", placeholder = "Сначала требуется сохранить запись об объекте"
+                            }
+                        })
+                        <div class="input-group-append">
+                            @Html.ActionLink("Добавть адрес", "Create", "ArchiveObjectAddress", new { }, new
+                            {
+                                @class = " btn btn-outline-danger disabled",
+                                role = "button",
+                                disabled = "disabled",
+                            })
+                        </div>
+                    }
                 }
             </div>
-            
             <div class="col-md-8">
             </div>
         </div>
         <hr>
         <p></p>
-        
-     
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#file-modal">
+            Прикрепить файлы
+        </button>
         <hr/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-8">
                 <div class="btn-group" role="group" aria-label="...">
-                            <input type="submit" value="Сохранить" class="btn btn-outline-danger"/>
+                    <input type="submit" value="Сохранить" class="btn btn-outline-danger"/>
                     <button class="back  btn btn-outline-success" type="reset" href="#">Отмена</button>
                 </div>
             </div>
@@ -94,23 +107,51 @@
     </div>
 }
 
+<div class="modal fade" id="file-modal" tabindex="-1" role="dialog" aria-labelledby="file-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="file-modal-label">Загрузить файл</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="UploadFile" asp-controller = "File" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input asp-for type="hidden" class="form-control-file" id="storeObject-Id" name="storeObjectId">
+                    </div>
+                    <div class="form-group">
+                        <label for="file-input">Выберите файл</label>
+                        <input type="file" class="form-control-file" id="file-input" name="file">
+                    </div>
+                    <div class="form-group">
+                        <label for="file-type">Тип файла</label>
+                        <select class="form-control" id="file-type" name="fileType">
+                            <option value="Pud">ПУД</option>
+                            <option value="Tehnics">Техничка</option>
+                            <option value="Other">Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="file-category">Категория</label>
+                        <input type="text" class="form-control" id="file-category" name="fileCategory">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Загрузить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-    $('.back').click(function () { window.history.back(); });
-    @*  $('.back').click(function () {
-        var query = '@Model.RefLink';
-        var f = query.replaceAll('&amp;','&');
-        
-       $(location).attr('href',f);
-       //window.location.href = '@Model.RefLink'
+    $('.back').click(function () {
+        window.history.back();
     });
-
-    $('#birthDate').val('@if (Model.Ticket.BirthDate.HasValue)
-                         {
-                             @Html.Encode(Model.Ticket.BirthDate.Value.ToString("yyyy-MM-dd"))
-                         }');
-                         *@
-    
+    document.getElementById("storeObject-Id").value = @Model.ArchiveObject.Id;
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

@@ -6,9 +6,7 @@ public class ArchiveDocumentObjectEditModel:AbstractArchiveModel
 {
     public string RefLink { get; set; }
 
-    public ArchiveDocumentObjectEditModel()
-    {
-    }
+   
 
     public List<SelectListItem> ObjectTypes { get; set; } = new List<SelectListItem>()
     {
@@ -16,19 +14,19 @@ public class ArchiveDocumentObjectEditModel:AbstractArchiveModel
         {
             Selected = true,
             Text = "ЗУ",
-            Value = ""
+            Value = Guid.NewGuid().ToString()
         },
         new SelectListItem()
         {
             Selected = false,
             Text = "ОКС",
-            Value = ""
+            Value =Guid.NewGuid().ToString()
         },
         new SelectListItem()
         {
             Selected = false,
             Text = "ПОМ",
-            Value = ""
+            Value =Guid.NewGuid().ToString()
         },
         
     };
@@ -39,19 +37,19 @@ public class ArchiveDocumentObjectEditModel:AbstractArchiveModel
         {
             Selected = true,
             Text = "ФНС",
-            Value = ""
+            Value = Guid.NewGuid().ToString()
         },
         new SelectListItem()
         {
             Selected = false,
             Text = "Инвентаризация",
-            Value = ""
+            Value = Guid.NewGuid().ToString()
         },
         new SelectListItem()
         {
             Selected = false,
             Text = "Инвентаризация ФТП",
-            Value = ""
+            Value = Guid.NewGuid().ToString()
         },
         
     };
