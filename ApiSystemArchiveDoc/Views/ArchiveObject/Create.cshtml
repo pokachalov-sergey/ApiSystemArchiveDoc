@@ -8,7 +8,8 @@
 <h2>Создать объект</h2>
 <h2> Дата создания: @Html.DisplayFor(m => @DateTime.Now)</h2>
 <hr/>
-@using (Html.BeginForm())
+
+@using (Html.BeginForm("Create", "ArchiveObject"))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
@@ -107,7 +108,8 @@
     </div>
 }
 
-<div class="modal fade" id="file-modal" tabindex="-1" role="dialog" aria-labelledby="file-modal-label" aria-hidden="true">
+<div class="modal fade" id="file-modal" tabindex="-1" role="dialog" aria-labelledby="file-modal-label"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -117,10 +119,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="UploadFile" asp-controller = "File" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input asp-for type="hidden" class="form-control-file" id="storeObject-Id" name="storeObjectId">
-                    </div>
+                <form  id="uploadFile" enctype="multipart/form-data" >
+                @* @using (Html.BeginForm("UploadFile", "File", FormMethod.Post, new { enctype = "multipart/form-data" })) *@
+                @* { *@
+                    //  @Html.AntiForgeryToken()
+
                     <div class="form-group">
                         <label for="file-input">Выберите файл</label>
                         <input type="file" class="form-control-file" id="file-input" name="file">
@@ -137,11 +140,15 @@
                         <label for="file-category">Категория</label>
                         <input type="text" class="form-control" id="file-category" name="fileCategory">
                     </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control-file" id="storeObject-Id" name="storeObjectId">
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Загрузить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
-                </form>
+                    </form>
+                @* } *@
             </div>
         </div>
     </div>
@@ -150,6 +157,29 @@
 <script>
     $('.back').click(function () {
         window.history.back();
+    });
+    $(function () {
+        $('#uploadFile').on('submit',function (e) {
+
+
+            var input = document.getElementById("file-input");
+            var files = input.file;
+            var formData = new FormData();
+
+            for (var i = 0; i != files.length; i++) {
+                formData.append("file", files[i]);
+            }
+            
+            $.ajax({
+                type: 'post',
+                url: '/File/UploadFile',
+                data: formData,
+                success: function () {
+                    alert("Email has been sent!");
+                }
+            });
+            e.preventDefault();
+        });
     });
     document.getElementById("storeObject-Id").value = @Model.ArchiveObject.Id;
 </script>

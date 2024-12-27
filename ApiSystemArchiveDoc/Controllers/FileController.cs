@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiSystemArchiveDoc.Controllers;
 
+namespace ApiSystemArchiveDoc.Controllers;
+[ApiExplorerSettings(IgnoreApi = true)]
+[Route("{controller}/{action}")]
 public class FileController : Controller
 {
     // GET
@@ -10,7 +12,7 @@ public class FileController : Controller
         return View();
     }
     [HttpPost]
-    public async Task<IActionResult> UploadFile(IFormFile file,Guid storeObjectId
+    public async Task<IActionResult> UploadFile(IFormFile  file,Guid storeObjectId
         , string fileType, string fileCategory)
     {
         if (file == null || file.Length == 0)
