@@ -20,14 +20,14 @@ public class FileController : Controller
             return BadRequest("Файл не выбран.");
         }
 
-        string uploadFolder = Path.Combine("c://", "uploads");
-        string fileName = Path.GetFileNameWithoutExtension(file.FileName) + "_" + Guid.NewGuid() + Path.GetExtension(file.FileName);
-        string filePath = Path.Combine(uploadFolder, fileName);
+       //string uploadFolder = Path.Combine("c://", "uploads");
+        //string fileName = Path.GetFileNameWithoutExtension(file.FileName) + "_" + Guid.NewGuid() + Path.GetExtension(file.FileName);
+        //string filePath = Path.Combine(uploadFolder, fileName);
 
-        using (var fileStream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(fileStream);
-        }
+        //using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //{
+        //    await file.CopyToAsync(fileStream);
+       // }
 
         // Сохраните информацию о файле в базу данных...
 

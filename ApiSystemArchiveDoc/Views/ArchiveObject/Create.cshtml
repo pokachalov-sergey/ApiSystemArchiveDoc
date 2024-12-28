@@ -119,11 +119,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form  id="uploadFile" enctype="multipart/form-data" >
-                @* @using (Html.BeginForm("UploadFile", "File", FormMethod.Post, new { enctype = "multipart/form-data" })) *@
-                @* { *@
-                    //  @Html.AntiForgeryToken()
-
+                <form id="uploadFile" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
                     <div class="form-group">
                         <label for="file-input">Выберите файл</label>
                         <input type="file" class="form-control-file" id="file-input" name="file">
@@ -147,41 +144,43 @@
                         <button type="submit" class="btn btn-primary">Загрузить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
-                    </form>
-                @* } *@
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    document.getElementById("storeObject-Id").value = @Model.ArchiveObject.Id;
+
     $('.back').click(function () {
         window.history.back();
     });
     $(function () {
-        $('#uploadFile').on('submit',function (e) {
-
-
-            var input = document.getElementById("file-input");
-            var files = input.file;
+        $('#uploadFile').on('submit', function (e) {
+            e.preventDefault();
             var formData = new FormData();
+            formData.append("file", $('#file-input')[0].files[0]);
+            formData.append("fileType", $('#file-type')[0].value);
+            formData.append("fileCategory", $('#file-category')[0].value);
+            formData.append("storeObjectId", @Model.ArchiveObject.Id);
 
-            for (var i = 0; i != files.length; i++) {
-                formData.append("file", files[i]);
-            }
-            
             $.ajax({
                 type: 'post',
                 url: '/File/UploadFile',
                 data: formData,
-                success: function () {
-                    alert("Email has been sent!");
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+
+                    alert(response);
                 }
+
             });
-            e.preventDefault();
         });
     });
-    document.getElementById("storeObject-Id").value = @Model.ArchiveObject.Id;
+
 </script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
