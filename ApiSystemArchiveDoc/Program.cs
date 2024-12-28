@@ -1,7 +1,13 @@
 using Microsoft.OpenApi.Models;
 using SystemArchiveDocDAL;
+using ApiSystemArchiveDoc.Data;
+using ApiSystemArchiveDoc.Models.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("ApiSystemArchiveDocIdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'ApiSystemArchiveDocIdentityContextConnection' not found.");;
 
 // Add services to the container.
 
@@ -15,6 +21,20 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SAD API", Version = "v1" });
 });
 builder.Services.AddDbContext<SadDbContext>();
+builder.Services.AddDbContext<ApiSystemArchiveDocIdentityContext>(builder =>
+    {
+        builder.UseNpgsql("Host=localhost;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
+        builder.ConfigureWarnings(warnings =>
+
+            warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
+    }
+);
+
+builder.Services.AddDefaultIdentity<ApiSystemArchiveDocUser>(options => 
+  
+        options.SignIn.RequireConfirmedAccount = true
+    )
+    .AddEntityFrameworkStores<ApiSystemArchiveDocIdentityContext>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -43,6 +63,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllers();
+
+
+
 
 app.Run();

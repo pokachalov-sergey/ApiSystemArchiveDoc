@@ -40,6 +40,10 @@
                     @Html.ActionLink("Объекты", "Index",
                         "ArchiveObject", new {}, new {@class = "nav-link"})
                 </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Проверить адрес", "Index",
+                        "Home", new {}, new {@class = "nav-link"})
+                </li>
                 @if (User.Identity.IsAuthenticated)
                 {
                     @if (User.IsInRole("superuser"))
@@ -49,18 +53,7 @@
                                 , new {@class = "nav-link"})
                         </li>
                     }
-                    @if (User.IsInRole("superuser") || User.IsInRole("admin"))
-                    {
-                        <li class="nav-item">
-                            @Html.ActionLink(" Отделения", "Index", "department", new {}
-                                , new {@class = "nav-link"})
-                        </li>
-                    }
-                    <li class="nav-item">
-                        @Html.ActionLink(" Талоны", "ShowTicketForDepartments", "Ticket",
-                            new {depatrmentsId = new List<long>(),
-                                servicesCode = new List<String>(){"0"}, date = DateTime.Now,stopdate = DateTime.Now.AddDays(1)}, new {@class = "nav-link"})
-                    </li>
+                   
                     <li class="nav-item">
                         @Html.ActionLink(" Отчеты", "Index", "Report",
                             new {depatrmentsId = new List<long>(){0},
