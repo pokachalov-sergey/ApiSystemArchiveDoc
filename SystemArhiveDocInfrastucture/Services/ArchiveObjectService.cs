@@ -7,18 +7,18 @@ namespace SystemArhiveDocInfrastucture.Services;
 public class ArchiveObjectService:IArchiveObjectService
 {
     private IObjectsRepository _objectsRepository;
-    private IArhchiveTaskTypesRepository _taskTypesRepository;
-    private IArhchiveObjectTypesRepository _arhchiveObjectTypesRepository;
+    private IArchiveTaskTypesRepository _taskTypesRepository;
+    private IArchiveObjectTypesRepository _archiveObjectTypesRepository;
     private IArhchiveDocumentTypesRepository _arhchiveDocumentTypesRepository;
     public ArchiveObjectService(IObjectsRepository objectsRepository, 
-        IArhchiveTaskTypesRepository taskTypesRepository, 
-        IArhchiveObjectTypesRepository arhchiveObjectTypesRepository,
+        IArchiveTaskTypesRepository taskTypesRepository, 
+        IArchiveObjectTypesRepository archiveObjectTypesRepository,
         IArhchiveDocumentTypesRepository arhchiveDocumentTypesRepository
         )
     {
         _objectsRepository=objectsRepository;
         _taskTypesRepository = taskTypesRepository;
-        _arhchiveObjectTypesRepository = arhchiveObjectTypesRepository;
+        _archiveObjectTypesRepository = archiveObjectTypesRepository;
         _arhchiveDocumentTypesRepository = arhchiveDocumentTypesRepository;
     }
 
@@ -33,7 +33,7 @@ public class ArchiveObjectService:IArchiveObjectService
     }
     public async Task<List<SystemArchiveObjectType>> GetObjectTypes()
     {
-        return  await _arhchiveObjectTypesRepository.GetArchiveObjectTypeAsync();
+        return  await _archiveObjectTypesRepository.GetArchiveObjectTypeAsync();
     }
     
     public async Task<List<SystemArchiveDocumentTaskType>> GetTaskTypes()

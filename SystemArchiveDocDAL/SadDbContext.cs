@@ -22,9 +22,12 @@ public class SadDbContext : DbContext
     {
         Database.EnsureCreated();
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+   
+    
+    public SadDbContext(DbContextOptions<SadDbContext> options)
+        : base(options)
     {
-        //optionsBuilder.
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
+       
     }
+
 }

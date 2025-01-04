@@ -44,13 +44,15 @@
                     @Html.ActionLink("Проверить адрес", "Index",
                         "Home", new {}, new {@class = "nav-link"})
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Identity/Account/Users">Пользователи</a>
+                </li>
                 @if (User.Identity.IsAuthenticated)
                 {
                     @if (User.IsInRole("superuser"))
                     {
                         <li class="nav-item">
-                            @Html.ActionLink(" Пользователи", "Index", "AppUsers", new {}
-                                , new {@class = "nav-link"})
+                            <a class=" btn btn-outline-primary" href="~/Identity/Account/Register" role="button">  Создать новый объект архива</a>
                         </li>
                     }
                    

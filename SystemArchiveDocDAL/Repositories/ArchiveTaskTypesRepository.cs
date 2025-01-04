@@ -4,7 +4,7 @@ using SystemArchiveDocDomain.Interfaces;
 
 namespace SystemArchiveDocDAL.Repositories;
 
-public class SystemArchiveTaskTypesRepository:IArhchiveTaskTypesRepository
+public class ArchiveTaskTypesRepository:IArchiveTaskTypesRepository
 {
     SadDbContext? _db;
 
@@ -19,7 +19,7 @@ public class SystemArchiveTaskTypesRepository:IArhchiveTaskTypesRepository
         return obj;
     }
 
-    public SystemArchiveTaskTypesRepository(SadDbContext db)
+    public ArchiveTaskTypesRepository(SadDbContext db)
     {
         _db = db;
     }

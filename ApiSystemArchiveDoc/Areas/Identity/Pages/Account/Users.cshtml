@@ -1,0 +1,60 @@
+﻿@page
+@model UsersModel
+@{
+    ViewData["Title"] = "Пользователи";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="btn-group" role="group" aria-label="...">
+    <button class="back  btn btn-outline-success" href="#"><span class="glyphicon glyphicon-level-up"> </span> Назад
+    </button>
+    <a class=" btn btn-outline-primary" href="~/Identity/Account/Register" role="button">  Создать нового пользователя</a>
+</div>
+
+<table class="table" id = "userstable">
+    <thead>
+    <tr>
+        <th>Имя пользователя</th>
+        <th>Роли</th>
+        <th>Статус</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            @* <td>@user.Role</td> *@
+            <td>@user.Status</td>
+            <td>
+                <a asp-page="./EditUser" asp-route-id="@user.Id">Изменить</a> |
+                <a asp-page="./LokUser" asp-route-id="@user.Id">Заблокировать</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.fn.dataTable.ext.classes.sPageButton = 'btn btn-outline-info';
+        $.fn.dataTable.ext.classes.sPageButtonActive = 'btn btn-outline-info';
+        $.fn.dataTable.ext.classes.sPageButtonDisabled = 'btn btn-outline-info disabled';
+        $('#userstable').DataTable({
+            stateSave: true,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/ru.json',
+                @*url: '@Url.Content("~/Content/datatableRus.json")'*@
+            }
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    $('.back').click(function () {
+        window.history.back();
+    });
+</script>

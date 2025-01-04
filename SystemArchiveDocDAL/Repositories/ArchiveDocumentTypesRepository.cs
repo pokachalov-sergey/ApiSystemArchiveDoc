@@ -4,11 +4,11 @@ using SystemArchiveDocDomain.Interfaces;
 
 namespace SystemArchiveDocDAL.Repositories;
 
-public class SystemArchiveDocumentTypesRepository:IArhchiveDocumentTypesRepository
+public class ArchiveDocumentTypesRepository:IArhchiveDocumentTypesRepository
 {
     SadDbContext? _db;
   
-    public SystemArchiveDocumentTypesRepository(SadDbContext db)
+    public ArchiveDocumentTypesRepository(SadDbContext db)
     {
         _db = db;
     }

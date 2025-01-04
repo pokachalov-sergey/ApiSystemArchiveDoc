@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using ApiSystemArchiveDoc.Areas.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using ApiSystemArchiveDoc.Models.Identity;
@@ -23,28 +23,91 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class UsersModel : PageModel
+    {
+   
+       
+      
+        private readonly UserManager<ApiSystemArchiveDocUser> _userManager;
+      
+
+        public UsersModel(UserManager<ApiSystemArchiveDocUser> userManager)
+        {
+            _userManager = userManager;
+         
+        }
+
+        
+        public IList<ApiSystemArchiveDocUser> Users { get; set; }
+        public async Task OnGetAsync()
+        {
+            Users = _userManager.Users.ToList();
+            
+
+            // Users = await _context.Users.OrderBy(u => u.Name).ToListAsync();
+            // RoleList = (await _userManager.GetRolesAsync(new AppUser()))
+            //     .Select(r => r.Name).ToArray();
+        }
+        // public IEnumerable<string> Roles { get; set; }
+        //
+        // public async Task OnGetAsync(string id)
+        // {
+        //     Roles = _roleManager.Roles.Select(r => r.Name);
+        //
+        //     if (!string.IsNullOrEmpty(id))
+        //     {
+        //         User = await _userManager.FindByIdAsync(id);
+        //     }
+        //     else
+        //     {
+        //         User = new IdentityUser();
+        //     }
+        // }
+        //
+        // public async Task<IActionResult> OnPostAsync()
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         
+        //         if (User.Id == null)
+        //         {
+        //             if((await _userManager.CreateAsync(User)).Succeeded)
+        //                 return RedirectToPage("./Users");
+        //         }
+        //         else
+        //         {
+        //             if((await _userManager.UpdateAsync(User)).Succeeded)
+        //                 return RedirectToPage("./Users");
+        //         }
+        //     }
+        //
+        //     Roles = _roleManager.Roles.Select(r => r.Name);
+        //     return Page();
+        // }
+    }
+
+    /*public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApiSystemArchiveDocUser> _signInManager;
         private readonly UserManager<ApiSystemArchiveDocUser> _userManager;
         private readonly IUserStore<ApiSystemArchiveDocUser> _userStore;
         private readonly IUserEmailStore<ApiSystemArchiveDocUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        
+        private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<ApiSystemArchiveDocUser> userManager,
             IUserStore<ApiSystemArchiveDocUser> userStore,
             SignInManager<ApiSystemArchiveDocUser> signInManager,
-            ILogger<RegisterModel> logger
-            )
+            ILogger<RegisterModel> logger,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-           
+            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -72,45 +135,29 @@ namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-           
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///     directly from your code. This API may change or be removed in future releases.
+            /// </summary>
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-            
-            [Required]
-            [Display(Name = "Имя")]
-            public string FirstName { get; set; }
-            
-            [Required]
-            [Display(Name = "Фамилия")]
-            public string LastName { get; set; }
-           
-            [Display(Name = "Отчество")]
-            public string Patronymic  { get; set; }
-            
-            [Display(Name = "Отдел")]
-            public string Department  { get; set; }
-            
-            [Display(Name = "Роль администратора")]
-            public bool IsAdministrator  { get; set; }
-            
-            [Display(Name = "Роль архивариус")]
-            public bool IsArchiver  { get; set; }
-            
-            [Display(Name = "Роль контроллера")]
-            public bool IsController  { get; set; }
-            
-            [Display(Name = "Учетная запись заблокирована")]
-            public bool IsLock  { get; set; }
-            
-            
+
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///     directly from your code. This API may change or be removed in future releases.
+            /// </summary>
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///     directly from your code. This API may change or be removed in future releases.
+            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -133,60 +180,34 @@ namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-                user.Department = Input.Department;
-                user.FirstName = Input.FirstName;
-                user.LastName = Input.LastName;
-                user.Patronymic = Input.Patronymic;
-
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                await _userManager.AddClaimAsync(user, new Claim("FirstName", Input.FirstName));
-                await _userManager.AddClaimAsync(user, new Claim("LastName", Input.LastName));
-                await _userManager.AddClaimAsync(user, new Claim("Department", Input.Department));
-                await _userManager.AddClaimAsync(user, new Claim("Patronymic", Input.Patronymic));
-
-                await _userManager.RemoveFromRolesAsync(user,
-                    new[] { "IsAdministrator", "IsArchiver", "IsController", "isLocked" });
-               if(Input.IsAdministrator)
-                await _userManager.AddToRoleAsync(user,"IsAdministrator" );
-               if(Input.IsArchiver)
-                   await _userManager.AddToRoleAsync(user,"IsArchiver" );
-               if(Input.IsController)
-                   await _userManager.AddToRoleAsync(user,"IsController" );
-               if(Input.IsLock)
-                   await _userManager.AddToRoleAsync(user,"isLocked" );
-
-                
-
-            if (result.Succeeded)
+                if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
-                    // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    // var callbackUrl = Url.Page(
-                    //     "/Account/ConfirmEmail",
-                    //     pageHandler: null,
-                    //     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                    //     protocol: Request.Scheme);
-                    //
-                    // await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                    //
-                    // if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    // {
-                    //     return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    // }
-                    // else
-                    // {
-                     //   await _signInManager.SignInAsync(user, isPersistent: false);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    }
+                    else
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    // }
+                    }
                 }
                 foreach (var error in result.Errors)
                 {
@@ -220,5 +241,5 @@ namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<ApiSystemArchiveDocUser>)_userStore;
         }
-    }
+    }*/
 }

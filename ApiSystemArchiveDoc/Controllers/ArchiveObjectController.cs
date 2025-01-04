@@ -1,4 +1,5 @@
 using ApiSystemArchiveDoc.Models;
+using ApiSystemArchiveDoc.Models.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -16,17 +17,19 @@ public class ArchiveObjectController : Controller
     private IArchiveObjectService _service;
 
     // GET
-    public ArchiveObjectController()
+    public ArchiveObjectController(IArchiveObjectService service)
     {
-        _service = new ArchiveObjectService(new ObjectsRepository(new SadDbContext()),
+        /*_service = new ArchiveObjectService(new ObjectsRepository(new SadDbContext()),
             new SystemArchiveTaskTypesRepository(new SadDbContext()),
             new SystemArchiveObjectTypesRepository(new SadDbContext()),
-            new SystemArchiveDocumentTypesRepository(new SadDbContext()));
+            new SystemArchiveDocumentTypesRepository(new SadDbContext()));*/
+        _service = service;
     }
 
 
     public IActionResult Index()
     {
+        var u = (this.User.Identity as ApiSystemArchiveDocUser);
         return View("Index", new ArchiveDocumentObjectIndexModel()
         {
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
@@ -35,6 +38,7 @@ public class ArchiveObjectController : Controller
 
     public async Task<IActionResult> Edit()
     {
+        var u = (User.Identity as ApiSystemArchiveDocUser);
         var objectTypes = (await _service.GetObjectTypes()).Select(x => new SelectListItem()
         {
             Text = x.Name,
