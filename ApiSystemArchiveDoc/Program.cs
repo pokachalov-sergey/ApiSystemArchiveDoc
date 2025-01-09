@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using System.Security.Claims;
 using Microsoft.OpenApi.Models;
 using SystemArchiveDocDAL;
@@ -31,11 +32,13 @@ builder.Services.AddDbContext<SadDbContext>(builder =>
             warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
         builder.ConfigureWarnings(warnings =>
             warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+        
     }
 );
 builder.Services.AddDbContext<ApiSystemArchiveDocIdentityContext>(builder =>
     {
         builder.UseNpgsql("Host=localhost;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
+        
         builder.ConfigureWarnings(warnings =>
             warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
         builder.ConfigureWarnings(warnings =>
@@ -134,6 +137,10 @@ using (IServiceScope scope = app.Services.CreateScope())
     }
 
     var context = scope.ServiceProvider.GetRequiredService<SadDbContext>();
+    
+    
+    
+    
     if (!context.ObjectTypes.Any(t => t.Name == "ОКС"))
         context.ObjectTypes.Add(new SystemArchiveObjectType() { Name = "ОКС", Created = DateTime.Now});
     if (!context.ObjectTypes.Any(t => t.Name == "Помещение"))
