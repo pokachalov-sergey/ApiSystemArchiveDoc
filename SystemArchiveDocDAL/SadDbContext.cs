@@ -27,7 +27,6 @@ public class SadDbContext : DbContext
     public SadDbContext(DbContextOptions<SadDbContext> options)
         : base(options)
     {
-       
     }
 
 }

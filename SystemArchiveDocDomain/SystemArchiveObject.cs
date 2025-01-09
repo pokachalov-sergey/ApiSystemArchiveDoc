@@ -16,6 +16,7 @@ namespace SystemArchiveDocDomain
 
         public SystemArchiveDocumentStatus Status { get; set; }
         
+        public SystemArchiveDocumentTaskType TaskType {  get; set; }
         public SystemArchiveObjectType ObjectType { get; set; }
         public List<SystemArchiveDocument> Documents { get; set; }
         public SystemArchiveAddress Address { get; set; }

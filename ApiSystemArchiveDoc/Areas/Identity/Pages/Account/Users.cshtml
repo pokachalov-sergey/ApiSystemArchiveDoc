@@ -11,11 +11,12 @@
     </button>
     <a class=" btn btn-outline-primary" href="~/Identity/Account/Register" role="button">  Создать нового пользователя</a>
 </div>
-
+<p></p>
 <table class="table" id = "userstable">
     <thead>
     <tr>
         <th>Имя пользователя</th>
+        <th>Почта</th>
         <th>Роли</th>
         <th>Статус</th>
         <th>Действия</th>
@@ -25,8 +26,9 @@
     @foreach (var user in Model.Users)
     {
         <tr>
+            <td>@user.UserFullName</td>
             <td>@user.UserName</td>
-            @* <td>@user.Role</td> *@
+            <td>@user.Roles</td>
             <td>@user.Status</td>
             <td>
                 <a asp-page="./EditUser" asp-route-id="@user.Id">Изменить</a> |

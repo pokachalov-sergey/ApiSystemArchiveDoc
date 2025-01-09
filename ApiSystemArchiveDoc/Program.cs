@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using SystemArchiveDocDAL.Repositories;
+using SystemArchiveDocDomain;
 using SystemArchiveDocDomain.Interfaces;
 using SystemArchiveDocDomain.Interfaces.Services;
 using SystemArhiveDocInfrastucture.Services;
@@ -28,6 +29,8 @@ builder.Services.AddDbContext<SadDbContext>(builder =>
         builder.UseNpgsql("Host=localhost;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
         builder.ConfigureWarnings(warnings =>
             warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
+        builder.ConfigureWarnings(warnings =>
+            warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
     }
 );
 builder.Services.AddDbContext<ApiSystemArchiveDocIdentityContext>(builder =>
@@ -35,6 +38,8 @@ builder.Services.AddDbContext<ApiSystemArchiveDocIdentityContext>(builder =>
         builder.UseNpgsql("Host=localhost;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
         builder.ConfigureWarnings(warnings =>
             warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
+        builder.ConfigureWarnings(warnings =>
+            warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
     }
 );
 
@@ -107,18 +112,18 @@ using (IServiceScope scope = app.Services.CreateScope())
     if (_user == null)
     {
         _superuser.Department = "Изингард";
-        _superuser.FirstName = "Юлия";
-        _superuser.LastName = "Синчук";
-        _superuser.Patronymic = "Леонидовна";
+        _superuser.FirstName = "Admin";
+        _superuser.LastName = "Admin";
+        _superuser.Patronymic = "Admin";
         var createPowerUser = await userManager.CreateAsync(_superuser, _userPaswd);
 
 
         if (createPowerUser.Succeeded)
         {
-            await userManager.AddClaimAsync(_superuser, new Claim("FirstName", "Юлия"));
-            await userManager.AddClaimAsync(_superuser, new Claim("LastName", "Синчук"));
+            await userManager.AddClaimAsync(_superuser, new Claim("FirstName", "Admin"));
+            await userManager.AddClaimAsync(_superuser, new Claim("LastName", "Admin"));
             await userManager.AddClaimAsync(_superuser, new Claim("Department", "Изингард"));
-            await userManager.AddClaimAsync(_superuser, new Claim("Patronymic", "Леонидовна"));
+            await userManager.AddClaimAsync(_superuser, new Claim("Patronymic", "Admin"));
             await userManager.AddToRoleAsync(_superuser, "IsAdministrator");
         }
     }
@@ -127,6 +132,33 @@ using (IServiceScope scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(_superuser, "IsAdministrator");
         await userManager.RemoveFromRoleAsync(_superuser, "isLocked");
     }
+
+    var context = scope.ServiceProvider.GetRequiredService<SadDbContext>();
+    if (!context.ObjectTypes.Any(t => t.Name == "ОКС"))
+        context.ObjectTypes.Add(new SystemArchiveObjectType() { Name = "ОКС", Created = DateTime.Now});
+    if (!context.ObjectTypes.Any(t => t.Name == "Помещение"))
+        context.ObjectTypes.Add(new SystemArchiveObjectType() { Name = "Помещение", Created = DateTime.Now });
+    if (!context.ObjectTypes.Any(t => t.Name == "ЗУ"))
+        context.ObjectTypes.Add(new SystemArchiveObjectType() { Name = "ЗУ", Created = DateTime.Now });
+    
+    if (!context.DocumentTaskTypes.Any(t => t.Name == "ФНС"))
+        context.DocumentTaskTypes.Add(new SystemArchiveDocumentTaskType() { Name = "ФНС", Created = DateTime.Now });
+    
+    if (!context.DocumentTaskTypes.Any(t => t.Name == "Инветаризация"))
+        context.DocumentTaskTypes.Add(new SystemArchiveDocumentTaskType() { Name = "Инветаризация", Created = DateTime.Now });
+    
+    if (!context.DocumentTaskTypes.Any(t => t.Name == "Инветаризация (ФТП)"))
+        context.DocumentTaskTypes.Add(new SystemArchiveDocumentTaskType() { Name = "Инветаризация (ФТП)", Created = DateTime.Now });
+    
+    if (!context.DocumentTypes.Any(t => t.Name == "ПУД"))
+        context.DocumentTypes.Add(new SystemArchiveDocumentType() { Name = "ПУД", Created = DateTime.Now });
+    
+    if (!context.DocumentTypes.Any(t => t.Name == "Тех.док."))
+        context.DocumentTypes.Add(new SystemArchiveDocumentType() { Name = "Тех.док.", Created = DateTime.Now });
+
+    context.SaveChanges();
+    
+
 }
 
 app.MapRazorPages();

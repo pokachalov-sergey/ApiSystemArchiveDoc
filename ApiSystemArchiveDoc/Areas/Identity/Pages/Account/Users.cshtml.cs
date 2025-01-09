@@ -23,6 +23,15 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
 {
+    public class IdentityUserModel
+    {
+        public string UserName { get; set; }
+        public string UserFullName { get; set; }
+        public string Roles { get; set; }
+        public string Status { get; set; }
+        public string Id { get; set; }
+   
+    }
     public class UsersModel : PageModel
     {
    
@@ -38,12 +47,23 @@ namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
         }
 
         
-        public IList<ApiSystemArchiveDocUser> Users { get; set; }
+        public IList<IdentityUserModel> Users { get; set; }
         public async Task OnGetAsync()
         {
-            Users = _userManager.Users.ToList();
-            
-
+            Users = new List<IdentityUserModel>();
+            var usr = _userManager.Users.ToList();
+            foreach (var user in usr)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                Users.Add(new IdentityUserModel()
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    UserFullName = user.FirstName + " " + user.LastName,
+                    Status = roles.Any(x=>x=="isLocked") ? "Заблокрован" : "Активый",
+                    Roles = string.Join(";",roles).Replace(";isLocked","")
+                });
+            }
             // Users = await _context.Users.OrderBy(u => u.Name).ToListAsync();
             // RoleList = (await _userManager.GetRolesAsync(new AppUser()))
             //     .Select(r => r.Name).ToArray();

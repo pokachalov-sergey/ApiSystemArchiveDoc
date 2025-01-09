@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SystemArchiveDocDAL;
 using SystemArchiveDocDAL.Repositories;
+using SystemArchiveDocDomain;
 using SystemArchiveDocDomain.Interfaces.Services;
 using SystemArhiveDocInfrastucture.Services;
 
@@ -19,10 +20,6 @@ public class ArchiveObjectController : Controller
     // GET
     public ArchiveObjectController(IArchiveObjectService service)
     {
-        /*_service = new ArchiveObjectService(new ObjectsRepository(new SadDbContext()),
-            new SystemArchiveTaskTypesRepository(new SadDbContext()),
-            new SystemArchiveObjectTypesRepository(new SadDbContext()),
-            new SystemArchiveDocumentTypesRepository(new SadDbContext()));*/
         _service = service;
     }
 
@@ -117,6 +114,22 @@ public class ArchiveObjectController : Controller
         });
 
         if (!ModelState.IsValid)
+        {
+            _service.CreateOrEditArchiveObject(
+                new SystemArchiveObject()
+                {
+                    
+                     
+                    Created = DateTime.Now,
+                    Address = new SystemArchiveAddress()
+                    {
+
+                    },
+                     ObjectType = (await _service.GetObjectTypes()).FirstOrDefault(x=>x.Id.ToString() == model.ArchiveObject.ObjectType),
+                     
+                     
+                }
+            );
 
             return View("Create", new ArchiveDocumentObjectEditModel()
             {
@@ -126,6 +139,7 @@ public class ArchiveObjectController : Controller
 
                 RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
             });
+        }
         else
         {
             return View("Create", new ArchiveDocumentObjectEditModel()

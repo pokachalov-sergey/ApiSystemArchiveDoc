@@ -9,4 +9,7 @@ public interface IArchiveObjectService
 
     Task<List<SystemArchiveDocumentTaskType>> GetTaskTypes();
 
+    Task<SystemArchiveObject> CreateOrEditArchiveObject(SystemArchiveObject archiveObject);
+
+    Task<SystemArchiveObject> GetObjectById(Guid id);
 }

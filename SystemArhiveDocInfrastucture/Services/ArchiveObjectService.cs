@@ -22,6 +22,11 @@ public class ArchiveObjectService:IArchiveObjectService
         _arhchiveDocumentTypesRepository = arhchiveDocumentTypesRepository;
     }
 
+    public async Task<SystemArchiveObject> CreateOrEditArchiveObject(SystemArchiveObject archiveObject)
+    {
+        return await _objectsRepository.AddOrEditObjectAsync(archiveObject);
+    }
+
     public async Task<SystemArchiveObject> GetObjectById(Guid id)
     {
       return  await _objectsRepository.GetObjectByIdAsync(id);
