@@ -143,7 +143,8 @@ namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
                         
 
                         await _userManager.RemoveFromRolesAsync(user,
-                            new[] { "IsAdministrator", "IsArchiver", "IsController", "isLocked" });
+                            new List<string>(){ "IsAdministrator", "IsArchiver", "IsController", "isLocked" });
+                        
                         if (Input.IsAdministrator)
                             await _userManager.AddToRoleAsync(user, "IsAdministrator");
                         if (Input.IsArchiver)

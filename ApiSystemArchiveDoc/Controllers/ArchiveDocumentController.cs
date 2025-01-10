@@ -22,13 +22,13 @@ public class ArchiveDocumentController : Controller
    
     public IActionResult Edit()
     {
-        return View("Edit",new ArchiveDocumentObjectEditModel()        {
+        return View("Edit",new ArchiveObjectCreateOrEditModel()        {
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
         });
     }
     public IActionResult Create()
     {
-        return View("Create",new ArchiveDocumentObjectEditModel()        {
+        return View("Create",new ArchiveObjectCreateOrEditModel()        {
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
         });
     }

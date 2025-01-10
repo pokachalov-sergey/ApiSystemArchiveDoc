@@ -51,7 +51,7 @@ public class ArchiveObjectController : Controller
             Text = x.Name,
             Value = x.Id.ToString()
         });
-        return View("Edit", new ArchiveDocumentObjectEditModel()
+        return View("Edit", new ArchiveObjectCreateOrEditModel()
         {
             ObjectTypes = objectTypes.ToList(),
             TaskTypes = taskTypes.ToList(),
@@ -81,7 +81,7 @@ public class ArchiveObjectController : Controller
             Value = x.Id.ToString()
         });
 
-        return View("Create", new ArchiveDocumentObjectEditModel()
+        return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
         {
             ObjectTypes = objectTypes.ToList(),
             TaskTypes = taskTypes.ToList(),
@@ -93,7 +93,7 @@ public class ArchiveObjectController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ArchiveDocumentObjectEditModel model)
+    public async Task<IActionResult> Create(ArchiveObjectCreateOrEditModel model)
     {
         var objectTypes = (await _service.GetObjectTypes()).Select(x => new SelectListItem()
         {
@@ -125,13 +125,13 @@ public class ArchiveObjectController : Controller
                     {
 
                     },
-                     ObjectType = (await _service.GetObjectTypes()).FirstOrDefault(x=>x.Id.ToString() == model.ArchiveObject.ObjectType),
+                     ObjectType = (await _service.GetObjectTypes()).FirstOrDefault(x=>x.Id.ToString() == model.ObjectType),
                      
                      
                 }
             );
 
-            return View("Create", new ArchiveDocumentObjectEditModel()
+            return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
             {
                 ObjectTypes = objectTypes.ToList(),
                 TaskTypes = taskTypes.ToList(),
@@ -142,7 +142,7 @@ public class ArchiveObjectController : Controller
         }
         else
         {
-            return View("Create", new ArchiveDocumentObjectEditModel()
+            return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
             {
                 ObjectTypes = objectTypes.ToList(),
                 TaskTypes = taskTypes.ToList(),

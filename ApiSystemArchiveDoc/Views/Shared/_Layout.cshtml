@@ -18,55 +18,48 @@
 <body>
 
 <div class="container">
-     <div class="preloader" style="display: none">
-         <div class="loader"></div>
-         </div>
+    <div class="preloader" style="display: none">
+        <div class="loader"></div>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-       
-        
+
+
         <a class="navbar-brand" href="#">
             <img src="~/img/logo.png" width="80px" class="d-inline-block fa-align-center" alt="">
-        </a>  
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id='navbarToggler' >
+        <div class="collapse navbar-collapse" id='navbarToggler'>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     @Html.ActionLink("Оцифровка архива онлайн", "Index",
-                        "Home", new {}, new {@class = "nav-link"})
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Объекты", "Index",
-                        "ArchiveObject", new {}, new {@class = "nav-link"})
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Проверить адрес", "Index",
-                        "Home", new {}, new {@class = "nav-link"})
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Identity/Account/Users">Пользователи</a>
+                        "Home", new { }, new { @class = "nav-link" })
                 </li>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @if (User.IsInRole("superuser"))
+                    <li class="nav-item">
+                        @Html.ActionLink("Объекты", "Index",
+                            "ArchiveObject", new { }, new { @class = "nav-link" })
+                    </li>
+
+
+                    @if (User.IsInRole("IsAdministrator"))
                     {
                         <li class="nav-item">
-                            <a class=" btn btn-outline-primary" href="~/Identity/Account/Register" role="button">  Создать новый объект архива</a>
+                            <a class="nav-link" href="~/Identity/Account/Users">Пользователи</a>
                         </li>
-                    }
+                  
                    
                     <li class="nav-item">
                         @Html.ActionLink(" Отчеты", "Index", "Report",
-                            new {depatrmentsId = new List<long>(){0},
-                                servicesCode = new List<String>(){"0"}, date = DateTime.Now,stopdate = DateTime.Now.AddDays(1)}, new {@class = "nav-link"})
+                            new
+                            {
+                                depatrmentsId = new List<long>() { 0 },
+                                servicesCode = new List<String>() { "0" }, date = DateTime.Now, stopdate = DateTime.Now.AddDays(1)
+                            }, new { @class = "nav-link" })
                     </li>
-                    @if (User.IsInRole("superuser"))
-                    {
-                        <li class="nav-item">
-                            @Html.ActionLink("Настройки талона", "Edit", "Setting", new {}
-                                , new {@class = "nav-link"})
-                        </li>
                     }
                 }
             </ul>
@@ -74,14 +67,14 @@
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
-    
-    
+
+
 </div>
 
 <div class="container body-content">
     @RenderBody()
     <hr/>
- 
+
     <footer>
         <p>&copy; @DateTime.Now.Year - Оцифровка архива</p>
     </footer>
