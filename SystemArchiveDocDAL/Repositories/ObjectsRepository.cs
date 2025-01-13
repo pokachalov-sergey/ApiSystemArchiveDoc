@@ -28,6 +28,8 @@ public class ObjectsRepository : IObjectsRepository
             archObj.TaskType = obj.TaskType;
             archObj.KadKvartal = obj.KadKvartal;
             archObj.Square = obj.Square;
+            
+            //archObj.Address = obj.Address;
             _db.Objects.Update(archObj);
             await _db.SaveChangesAsync();
             return archObj;

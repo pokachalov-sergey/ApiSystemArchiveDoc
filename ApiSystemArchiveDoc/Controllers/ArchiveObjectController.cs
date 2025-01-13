@@ -62,10 +62,10 @@ public class ArchiveObjectController : Controller
     public async Task<IActionResult> Edit(string Id)
     {
         var u = (User.Identity as ApiSystemArchiveDocUser);
-        
+
         var archiveObject = await _service.GetObjectById(Guid.Parse(Id));
 
-        
+
         var objectTypes = (await _service.GetObjectTypes()).Select(x => new SelectListItem()
         {
             Text = x.Name,
@@ -76,15 +76,15 @@ public class ArchiveObjectController : Controller
         {
             Text = x.Name,
             Value = x.Id.ToString(),
-           Selected = x.Id == archiveObject.TaskType.Id
+            Selected = x.Id == archiveObject.TaskType.Id
         });
         var documentTypes = (await _service.GetDocumentTypesAsync()).Select(x => new SelectListItem()
         {
             Text = x.Name,
             Value = x.Id.ToString()
         });
-
-        return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
+        ViewData["Action"] = "Edit";
+return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
         {
             ObjectTypes = objectTypes.ToList(),
             TaskTypes = taskTypes.ToList(),
@@ -92,9 +92,7 @@ public class ArchiveObjectController : Controller
             KadKvartal = archiveObject.KadKvartal,
             ObjectType = archiveObject.ObjectType.Name,
             ObjectTaskType = archiveObject.TaskType.Name,
-
             Square = archiveObject.Square.Value,
-            
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
             Region = archiveObject.Address.Region,
             Area = archiveObject.Address.Area,
@@ -116,14 +114,13 @@ public class ArchiveObjectController : Controller
         });
     }
 
-[HttpPost]    
-     public async Task<IActionResult> Edit(ArchiveObjectCreateOrEditModel model)
+    [HttpPost]
+    public async Task<IActionResult> Edit(ArchiveObjectCreateOrEditModel model)
     {
         var u = (User.Identity as ApiSystemArchiveDocUser);
-        
-        var archiveObject = await _service.GetObjectById(model.Id);
+        ViewData["Action"] = "Edit";
 
-        
+        var archiveObject = await _service.GetObjectById(model.Id);
         var objectTypes = (await _service.GetObjectTypes()).Select(x => new SelectListItem()
         {
             Text = x.Name,
@@ -134,25 +131,88 @@ public class ArchiveObjectController : Controller
         {
             Text = x.Name,
             Value = x.Id.ToString(),
-           Selected = x.Id == archiveObject.TaskType.Id
+            Selected = x.Id == archiveObject.TaskType.Id
         });
         var documentTypes = (await _service.GetDocumentTypesAsync()).Select(x => new SelectListItem()
         {
             Text = x.Name,
             Value = x.Id.ToString()
         });
+        if (ModelState.IsValid)
+        {
+            SystemArchiveAddress address = (archiveObject.Address != null
+                                            && Guid.Empty != archiveObject.Address.Id)
+                ? archiveObject.Address
+                : new SystemArchiveAddress();
+            address.Region = model.Region;
+            address.Area = model.Area;
+            address.City = model.City;
+            address.CityArea = model.CityArea;
+            address.CityDistrict = model.CityDistrict;
+            address.Settlement = model.Settlement;
+            address.Street = model.Street;
+            address.House = model.House;
+            address.Block = model.Block;
+            address.Floor = model.Floor;
+            address.Flat = model.Flat;
+            address.Stead = model.Stead;
+            address.Okato = model.Okato;
+            address.Oktmo = model.Oktmo;
+            address.GeoLat = model.GeoLat;
+            address.GeoLon = model.GeoLon;
+            address.FullAddress = @$"{model.KadKvartal} {(await _service.GetObjectTypes())
+                .FirstOrDefault(x => x.Id.ToString() == model.ObjectType)?.Name} "
+                                  + $@"{model.Region},"
+                                  + (string.IsNullOrEmpty(model.Area) ? string.Empty : model.Area + ",")
+                                  + (string.IsNullOrEmpty(model.City) ? string.Empty : model.City + ",")
+                                  + (string.IsNullOrEmpty(model.CityArea) ? string.Empty : model.CityArea + ",")
+                                  + (string.IsNullOrEmpty(model.CityDistrict)
+                                      ? string.Empty
+                                      : model.CityDistrict + ",")
+                                  + (string.IsNullOrEmpty(model.Settlement)
+                                      ? string.Empty
+                                      : model.Settlement + ",")
+                                  + (string.IsNullOrEmpty(model.House)
+                                      ? string.Empty
+                                      : "д. " + model.House + ",")
+                                  + (string.IsNullOrEmpty(model.Block) ? string.Empty : "" + model.Block + ",")
+                                  + (string.IsNullOrEmpty(model.Floor)
+                                      ? string.Empty
+                                      : "этаж " + model.Floor + ",")
+                                  + (string.IsNullOrEmpty(model.Flat)
+                                      ? string.Empty
+                                      : "кв. " + model.Flat + ",")
+                                  + (string.IsNullOrEmpty(model.Flat)
+                                      ? string.Empty
+                                      : "з.у. номер. " + model.Flat + ",");
+
+            archiveObject = await _service.CreateOrEditArchiveObjectAsync(
+                new SystemArchiveObject()
+                {
+                    Id = archiveObject.Id,
+                    Created =  archiveObject.Created,
+                    Square = model.Square,
+                    Address = address,
+                    ObjectType =
+                        (await _service.GetObjectTypes()).FirstOrDefault(x => x.Id.ToString() == model.ObjectType),
+                    TaskType = (await _service.GetTaskTypesAsync()).FirstOrDefault(x =>
+                        x.Id.ToString() == model.ObjectTaskType),
+                    KadKvartal = model.KadKvartal,
+                });
+            if (Guid.Empty != archiveObject.Id || archiveObject.Id != null)
+                RedirectToAction("Create");
+            return View("Index");
+        }
 
         return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
         {
+            Id = archiveObject.Id,
             ObjectTypes = objectTypes.ToList(),
             TaskTypes = taskTypes.ToList(),
             DocumentTypes = documentTypes.ToList(),
-            
             ObjectType = archiveObject.ObjectType.Name,
             ObjectTaskType = archiveObject.TaskType.Name,
-
             Square = archiveObject.Square.Value,
-            
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
             Region = archiveObject.Address.Region,
             Area = archiveObject.Address.Area,
@@ -173,7 +233,7 @@ public class ArchiveObjectController : Controller
             FullAddress = archiveObject.Address.FullAddress
         });
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -194,6 +254,7 @@ public class ArchiveObjectController : Controller
             Text = x.Name,
             Value = x.Id.ToString()
         });
+        ViewData["Action"] = "Create";
 
         return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
         {
@@ -227,6 +288,7 @@ public class ArchiveObjectController : Controller
             Text = x.Name,
             Value = x.Id.ToString()
         });
+        ViewData["Action"] = "Create";
 
         if (ModelState.IsValid)
         {
@@ -281,14 +343,7 @@ public class ArchiveObjectController : Controller
             if (Guid.Empty != archiveObject.Id || archiveObject.Id != null)
                 RedirectToAction("Create");
 
-            return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
-            {
-                ObjectTypes = objectTypes.ToList(),
-                TaskTypes = taskTypes.ToList(),
-                DocumentTypes = documentTypes.ToList(),
-
-                RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
-            });
+            return View("Index");
 
 
             return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
