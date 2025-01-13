@@ -67,6 +67,6 @@ public class ArchiveObjectAddressModel:AbstractArchiveModel
     public string? GeoLat { get; set; }
     public string? GeoLon { get; set; }
 
-    public string FullAddress { get; set; }
+    public string? FullAddress { get; set; }
   
 }

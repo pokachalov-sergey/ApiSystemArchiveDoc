@@ -22,9 +22,10 @@ public class ArchiveObjectService:IArchiveObjectService
         _arhchiveDocumentTypesRepository = arhchiveDocumentTypesRepository;
     }
 
-    public async Task<SystemArchiveObject> CreateOrEditArchiveObject(SystemArchiveObject archiveObject)
+    public async Task<SystemArchiveObject> CreateOrEditArchiveObjectAsync(SystemArchiveObject archiveObject)
     {
         return await _objectsRepository.AddOrEditObjectAsync(archiveObject);
+        
     }
 
     public async Task<SystemArchiveObject> GetObjectById(Guid id)
@@ -32,7 +33,13 @@ public class ArchiveObjectService:IArchiveObjectService
       return  await _objectsRepository.GetObjectByIdAsync(id);
     }
     
-    public async Task<List<SystemArchiveDocumentType>> GetDocumentTypes()
+    public async Task<List<SystemArchiveObject>> GetObjectsAsync()
+    {
+        var objects = await _objectsRepository.GetObjects();
+        return objects;
+    }
+    
+    public async Task<List<SystemArchiveDocumentType>> GetDocumentTypesAsync()
     {
         return  await _arhchiveDocumentTypesRepository.GetArchiveDocumentTypesAsync();
     }
@@ -41,7 +48,7 @@ public class ArchiveObjectService:IArchiveObjectService
         return  await _archiveObjectTypesRepository.GetArchiveObjectTypeAsync();
     }
     
-    public async Task<List<SystemArchiveDocumentTaskType>> GetTaskTypes()
+    public async Task<List<SystemArchiveDocumentTaskType>> GetTaskTypesAsync()
     {
         return  await _taskTypesRepository.GetArchiveTaskTypeAsync();
     }

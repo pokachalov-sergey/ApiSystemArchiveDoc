@@ -105,7 +105,7 @@ namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Content("~/home");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -120,9 +120,9 @@ namespace ApiSystemArchiveDoc.Areas.Identity.Pages.Account
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
+                // {
+                //     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                // }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");

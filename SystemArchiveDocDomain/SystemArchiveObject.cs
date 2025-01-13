@@ -15,10 +15,7 @@ namespace SystemArchiveDocDomain
         [Column(TypeName = "timestamp(6)")]
         public DateTime Created { get; set; }
 
-        public string Name { get; set; }
-        public string? Description { get; set; }
-
-        public SystemArchiveDocumentStatus Status { get; set; }
+      
         
         public SystemArchiveDocumentTaskType TaskType {  get; set; }
         public SystemArchiveObjectType ObjectType { get; set; }
@@ -27,6 +24,7 @@ namespace SystemArchiveDocDomain
         
         public double? Square { get; set; }
         
+        public string KadKvartal { get; set; }
         
     }
 }

@@ -84,13 +84,13 @@
 
                 <td>
                     <div class="btn-group" role="group" aria-label="...">
-                        @Html.ActionLink(" ", "Edit", new { id = item.Id }, new { @class = "far fa-edit btn btn-outline-primary" })
-                        <button class="setLock far fa-times-circle btn btn-outline-danger" href="#"
-                                data-id="@item.Id"></button>
-                        @Html.ActionLink(" ", "Print", new { id = item.Id, depId = @Guid.Empty, date = DateTime.Now },
-                            new { @class = "fas fa-print btn btn-outline-success" })
-                        <a class="far fa-check-circle btn btn-outline-success approve" href="#" data-toggle="modal"
-                           data-target="#myModal" data-id="@item.Id"> </a>
+                        @Html.ActionLink(" Редактировать", "Edit", new { id = item.Id }, new { @class = "far fa-edit btn btn-outline-primary" })
+                        @*<button class="setLock far fa-times-circle btn btn-outline-danger" href="#"
+                                data-id="@item.Id"></button>*@
+                        @*@Html.ActionLink(" ", "Print", new { id = item.Id, depId = @Guid.Empty, date = DateTime.Now },
+                            new { @class = "fas fa-print btn btn-outline-success" })*@
+                        @*<a class="far fa-check-circle btn btn-outline-success approve" href="#" data-toggle="modal"
+                           data-target="#myModal" data-id="@item.Id"> </a>a*@
                     </div>
                 </td>
             </tr>

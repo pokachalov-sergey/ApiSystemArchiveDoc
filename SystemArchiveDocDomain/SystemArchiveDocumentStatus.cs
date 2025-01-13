@@ -8,6 +8,7 @@ namespace SystemArchiveDocDomain
        
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string Code { get; set; }
         [Column(TypeName = "timestamp(6)")]
         public DateTime Created { get; set; }
 
