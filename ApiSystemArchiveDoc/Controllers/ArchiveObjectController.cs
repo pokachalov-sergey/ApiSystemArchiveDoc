@@ -168,13 +168,10 @@ public class ArchiveObjectController : Controller
                     KadKvartal = model.KadKvartal,
                 });
             if (Guid.Empty != archiveObject.Id || archiveObject.Id != null)
-                RedirectToAction("Create");
-            else
-            {
-                RedirectToAction("Edit", new {Id = archiveObject.Id});
-            }
+               return RedirectToAction("Edit", new {Id = archiveObject.Id.ToString()});
+
         }
-        RedirectToAction("Create");
+       
 
         return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()
         {
@@ -223,8 +220,8 @@ public class ArchiveObjectController : Controller
             TaskTypes = taskTypes.ToList(),
             DocumentTypes = documentTypes.ToList(),
             KadKvartal = archiveObject.KadKvartal,
-            ObjectType = archiveObject.ObjectType.Name,
-            ObjectTaskType = archiveObject.TaskType.Name,
+            ObjectType = archiveObject.ObjectType.Id.ToString(),
+            ObjectTaskType = archiveObject.TaskType.Id.ToString(),
             Square = archiveObject.Square.Value,
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
             Region = archiveObject.Address.Region,
@@ -333,8 +330,11 @@ public class ArchiveObjectController : Controller
                     KadKvartal = model.KadKvartal,
                 });
             if (Guid.Empty != archiveObject.Id || archiveObject.Id != null)
-                RedirectToAction("Create");
-            return View("Index");
+                return RedirectToAction("Edit", new {Id = archiveObject.Id.ToString()});
+
+            return RedirectToAction("Index"
+                    );
+
         }
 
         return View("CreateOrEdit", new ArchiveObjectCreateOrEditModel()

@@ -168,7 +168,6 @@ using (IServiceScope scope = app.Services.CreateScope())
     if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Черновик" && t.Code == "10"))
         context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Черновик",Code = "10", Created = DateTime.Now });
     
-    
     if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Внесен адрес" && t.Code == "20"))
         context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Внесен адрес",Code = "20", Created = DateTime.Now });
     
@@ -193,5 +192,7 @@ using (IServiceScope scope = app.Services.CreateScope())
 }
 
 app.MapRazorPages();
-app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();

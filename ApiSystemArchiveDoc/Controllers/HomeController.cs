@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiSystemArchiveDoc.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
-[Route("[controller]")]
+//[Route("[controller]")]
 public class HomeController : Controller
 {
     // GET
