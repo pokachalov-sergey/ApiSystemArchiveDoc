@@ -9,12 +9,12 @@ public class ObjectsRepository : IObjectsRepository
     SadDbContext? _db;
 
     public async Task<SystemArchiveObject> GetObjectByIdAsync(Guid id) =>
-        await _db.Objects.Include(x => x.Address)
+        await _db.Objects.Include(x => x.Address).Include(x=>x.Status)
             .FirstOrDefaultAsync(x => x.Id == id) ?? new SystemArchiveObject();
 
 
     public async Task<List<SystemArchiveObject>> GetObjects() => await _db?.Objects
-        .Include(x => x.Address)
+        .Include(x => x.Address).Include(x=>x.Status)
         .ToListAsync();
 
     public async Task<SystemArchiveObject> AddOrEditObjectAsync(SystemArchiveObject obj)
