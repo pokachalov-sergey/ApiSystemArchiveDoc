@@ -8,6 +8,9 @@ public abstract class AbstractArchiveModel
     public DateTime? EditDateTime { get; set; }
     public string? EditUser { get; set; }
     public string? StatusStr { get; set; }
+    
+    public string? StatusCodeStr { get; set; }
+
     public string? RefLink { get; set; }
 
 }

@@ -13,4 +13,6 @@ public interface IArchiveObjectService
 
     Task<SystemArchiveObject> GetObjectById(Guid id);
     Task<List<SystemArchiveObject>> GetObjectsAsync();
+
+    Task<List<SystemArchiveDocumentStatus>> GetStatusesAsync();
 }

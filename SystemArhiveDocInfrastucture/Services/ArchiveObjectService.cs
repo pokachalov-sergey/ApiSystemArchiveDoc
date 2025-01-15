@@ -10,16 +10,19 @@ public class ArchiveObjectService:IArchiveObjectService
     private IArchiveTaskTypesRepository _taskTypesRepository;
     private IArchiveObjectTypesRepository _archiveObjectTypesRepository;
     private IArhchiveDocumentTypesRepository _arhchiveDocumentTypesRepository;
+    private IArchiveStatusesRepository _statusesRepository;
     public ArchiveObjectService(IObjectsRepository objectsRepository, 
         IArchiveTaskTypesRepository taskTypesRepository, 
         IArchiveObjectTypesRepository archiveObjectTypesRepository,
-        IArhchiveDocumentTypesRepository arhchiveDocumentTypesRepository
+        IArhchiveDocumentTypesRepository arhchiveDocumentTypesRepository,
+        IArchiveStatusesRepository statusesRepository
         )
     {
         _objectsRepository=objectsRepository;
         _taskTypesRepository = taskTypesRepository;
         _archiveObjectTypesRepository = archiveObjectTypesRepository;
         _arhchiveDocumentTypesRepository = arhchiveDocumentTypesRepository;
+        _statusesRepository = statusesRepository;
     }
 
     public async Task<SystemArchiveObject> CreateOrEditArchiveObjectAsync(SystemArchiveObject archiveObject)
@@ -51,5 +54,9 @@ public class ArchiveObjectService:IArchiveObjectService
     public async Task<List<SystemArchiveDocumentTaskType>> GetTaskTypesAsync()
     {
         return  await _taskTypesRepository.GetArchiveTaskTypeAsync();
+    }
+    public async Task<List<SystemArchiveDocumentStatus>> GetStatusesAsync()
+    {
+        return  await _statusesRepository.GetArchiveStatusesAsync();
     }
 }

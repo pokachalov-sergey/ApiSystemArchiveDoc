@@ -143,8 +143,10 @@ using (IServiceScope scope = app.Services.CreateScope())
     
     if (!context.ObjectTypes.Any(t => t.Name == "ОКС"))
         context.ObjectTypes.Add(new SystemArchiveObjectType() { Name = "ОКС", Created = DateTime.Now});
+    
     if (!context.ObjectTypes.Any(t => t.Name == "Помещение"))
         context.ObjectTypes.Add(new SystemArchiveObjectType() { Name = "Помещение", Created = DateTime.Now });
+    
     if (!context.ObjectTypes.Any(t => t.Name == "ЗУ"))
         context.ObjectTypes.Add(new SystemArchiveObjectType() { Name = "ЗУ", Created = DateTime.Now });
     
@@ -162,7 +164,29 @@ using (IServiceScope scope = app.Services.CreateScope())
     
     if (!context.DocumentTypes.Any(t => t.Name == "Тех.док."))
         context.DocumentTypes.Add(new SystemArchiveDocumentType() { Name = "Тех.док.", Created = DateTime.Now });
+    
+    if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Черновик" && t.Code == "10"))
+        context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Черновик",Code = "10", Created = DateTime.Now });
+    
+    
+    if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Внесен адрес" && t.Code == "20"))
+        context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Внесен адрес",Code = "20", Created = DateTime.Now });
+    
+    if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Проверено на дубли" && t.Code == "25"))
+        context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Проверено на дубли",Code = "25", Created = DateTime.Now });
+    
+    if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Обнаружен дубль" && t.Code == "21"))
+        context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Обнаружен дубль",Code = "21", Created = DateTime.Now });
+    
+    if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Внесены документы" && t.Code == "30"))
+        context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Внесены документы",Code = "30", Created = DateTime.Now });
+    
+    if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Внесение завершено" && t.Code == "40"))
+        context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Внесение завершено",Code = "40", Created = DateTime.Now });
 
+    if (!context.DocumentStatusEnumerable.Any(t => t.Name == "Остановлено" && t.Code == "50"))
+        context.DocumentStatusEnumerable.Add(new SystemArchiveDocumentStatus() { Name = "Остановлено",Code = "50", Created = DateTime.Now });
+    
     context.SaveChanges();
     
 

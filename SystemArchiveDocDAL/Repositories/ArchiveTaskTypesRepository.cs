@@ -19,6 +19,11 @@ public class ArchiveTaskTypesRepository:IArchiveTaskTypesRepository
         return obj;
     }
 
+    public async Task<List<SystemArchiveDocumentStatus>> GetStatusesAsync()
+    {
+     return  await _db.DocumentStatusEnumerable.ToListAsync();
+    }
+
     public ArchiveTaskTypesRepository(SadDbContext db)
     {
         _db = db;

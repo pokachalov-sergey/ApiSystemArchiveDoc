@@ -31,7 +31,11 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Pages\Shared\" />
-    <Folder Include="Views\ArchiveDocument\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\ArchiveObjectAddress\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\ArchiveObjectAddress\Edit.cshtml" />
   </ItemGroup>
 
 </Project>

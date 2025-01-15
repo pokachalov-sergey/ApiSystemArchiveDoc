@@ -15,8 +15,9 @@ namespace SystemArchiveDocDomain
         [Column(TypeName = "timestamp(6)")]
         public DateTime Created { get; set; }
 
-      
-        
+
+        public SystemArchiveDocumentStatus Status { get; set; }
+
         public SystemArchiveDocumentTaskType TaskType {  get; set; }
         public SystemArchiveObjectType ObjectType { get; set; }
         public List<SystemArchiveDocument> Documents { get; set; }
