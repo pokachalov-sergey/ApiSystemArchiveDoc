@@ -229,7 +229,7 @@
                     }
                     @if (Model.StatusCodeStr == "20")
                     {
-                        <input type="submit" value="Сохранить изминения" class="btn btn-outline-danger"/>
+                        <input type="submit" value="Сохранить изменения" class="btn btn-outline-danger"/>
                         <input id  = check value="Проверить на дубли" class="btn btn-outline-danger"/>
                     }
                     @if (Model.StatusCodeStr == "25")
@@ -290,10 +290,14 @@
 
 <script>
     document.getElementById("storeObject-Id").value = @Model.Id;
-    var selector = document.getElementById("kadKv");
-
-    var im = new Inputmask("99:99:9999999");
-    im.mask(selector);
+    
+    var kkv = new Inputmask("99:99:9999999");
+    kkv.mask(document.getElementById("kadKv"));
+    var okato = new Inputmask("21999999[999]");
+    okato.mask(document.getElementById("Okato"));
+    var oktmo = new Inputmask("21999999[999]");
+    oktmo.mask(document.getElementById("Oktmo"));
+    
     $('.back').click(function () {
         window.history.back();
     });

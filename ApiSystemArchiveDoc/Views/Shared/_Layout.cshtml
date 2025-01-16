@@ -9,8 +9,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap-multiselect.min.js"></script>
     <script src="~/js/jquery.inputmask.min.js"></script>
     <script src="~/js/inputmask.min.js"></script>
-    
-    
+
+
     <link href="~/lib/fontawesome/fontawesome-free-6.0.0-beta3-web/css/all.css" rel="stylesheet">
     <link href="~/css/site.min.css" rel="stylesheet">
     <link href="~/lib/bootstrap/dist/css/bootstrap-multiselect.min.css" rel="stylesheet">
@@ -47,23 +47,27 @@
                         @Html.ActionLink("Объекты", "Index",
                             "ArchiveObject", new { }, new { @class = "nav-link" })
                     </li>
-
-
                     @if (User.IsInRole("IsAdministrator"))
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Identity/Account/Users">Пользователи</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                               aria-expanded="false">
+                                Администрирование
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="nav-link" href="~/Identity/Account/Users">Пользователи</a>
+                                @Html.ActionLink(" Отчеты", "Index", "Report",
+                                    new
+                                    {
+                                        depatrmentsId = new List<long>() { 0 },
+                                        servicesCode = new List<String>() { "0" }, date = DateTime.Now, stopdate = DateTime.Now.AddDays(1)
+                                    }, new { @class = "nav-link" })
+                                <div class="dropdown-divider"></div>
+                                <a class="nav-link" href="~/Identity/Account/Users">Внести сведения из ССС</a>
+                            </div>
                         </li>
-                  
-                   
-                    <li class="nav-item">
-                        @Html.ActionLink(" Отчеты", "Index", "Report",
-                            new
-                            {
-                                depatrmentsId = new List<long>() { 0 },
-                                servicesCode = new List<String>() { "0" }, date = DateTime.Now, stopdate = DateTime.Now.AddDays(1)
-                            }, new { @class = "nav-link" })
-                    </li>
+
+                     
                     }
                 }
             </ul>

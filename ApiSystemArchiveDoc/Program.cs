@@ -27,7 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "SAD API", Version = "v1" }); });
 builder.Services.AddDbContext<SadDbContext>(builder =>
     {
-        builder.UseNpgsql("Host=localhost;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
+        builder.UseNpgsql("Host=31.133.50.212;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
         builder.ConfigureWarnings(warnings =>
             warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
         builder.ConfigureWarnings(warnings =>
@@ -37,7 +37,7 @@ builder.Services.AddDbContext<SadDbContext>(builder =>
 );
 builder.Services.AddDbContext<ApiSystemArchiveDocIdentityContext>(builder =>
     {
-        builder.UseNpgsql("Host=localhost;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
+        builder.UseNpgsql("Host=31.133.50.212;Port=5432;Database=saddb;Username=postgres;Password=SHkalin1086");
         
         builder.ConfigureWarnings(warnings =>
             warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
