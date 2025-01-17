@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -7,10 +8,13 @@ namespace ApiSystemArchiveDoc.Controllers;
 public class FileController : Controller
 {
     // GET
+    [Authorize]
     public IActionResult Index()
     {
         return View();
     }
+    
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> UploadFile(IFormFile  file,Guid storeObjectId
         , string fileType, string fileCategory)

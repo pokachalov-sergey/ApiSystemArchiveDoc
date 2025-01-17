@@ -1,5 +1,6 @@
 using ApiSystemArchiveDoc.Models;
 using ApiSystemArchiveDoc.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -12,6 +13,7 @@ using SystemArhiveDocInfrastucture.Services;
 
 namespace ApiSystemArchiveDoc.Controllers;
 
+[Authorize]
 [ApiExplorerSettings(IgnoreApi = true)]
 [Route("{controller}/{action}")]
 public class ArchiveObjectController : Controller
@@ -24,6 +26,7 @@ public class ArchiveObjectController : Controller
         _service = service;
     }
 
+    [Authorize]
 
     public async Task<IActionResult> Index()
     {
@@ -61,6 +64,7 @@ public class ArchiveObjectController : Controller
     }
 
     #region Create
+    [Authorize]
 
     [HttpGet]
     public async Task<IActionResult> Create()
@@ -95,7 +99,8 @@ public class ArchiveObjectController : Controller
             RefLink = HttpContext.Request.Path + HttpContext.Request.QueryString.Value,
         });
     }
-
+    
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ArchiveObjectCreateOrEditModel model)
@@ -186,7 +191,7 @@ public class ArchiveObjectController : Controller
     #endregion
 
     #region Edit
-
+    [Authorize]
     public async Task<IActionResult> Edit(string Id)
     {
         var u = (User.Identity as ApiSystemArchiveDocUser);
@@ -243,6 +248,7 @@ public class ArchiveObjectController : Controller
             FullAddress = archiveObject.Address.FullAddress
         });
     }
+    [Authorize]
 
     [HttpPost]
     public async Task<IActionResult> Edit(ArchiveObjectCreateOrEditModel model)
@@ -371,7 +377,7 @@ public class ArchiveObjectController : Controller
 
     #endregion
 
-
+    [Authorize]
     [HttpGet]
     public async Task<List<ArchiveObjectModel>> GetSimilarObject(string Id)
     {
@@ -380,16 +386,16 @@ public class ArchiveObjectController : Controller
         return (await _service.GetObjectsAsync())
             .Select(o => new ArchiveObjectModel()
             {
-                ObjectType = o.ObjectType.Name,
+                ObjectType = o.ObjectType?.Name,
                 Square = o.Square.Value,
-                ObjectTaskType = o.TaskType.Name,
-                StatusStr = o.Status.Name,
-                FullAddress = o.Address.FullAddress
+                ObjectTaskType = o.TaskType?.Name,
+                StatusStr = o.Status?.Name,
+                FullAddress = o.Address?.FullAddress
             })
             .ToList();
     }
 
-
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SetObjectToChecked(string Id)
@@ -399,7 +405,8 @@ public class ArchiveObjectController : Controller
         _service.CreateOrEditArchiveObjectAsync(archiveObject);
         return Ok();
     }
-    
+    [Authorize]
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SetObjectToDouble(string Id, string KadNum)
@@ -410,6 +417,7 @@ public class ArchiveObjectController : Controller
         return Ok();
     }
     
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SetObjectToClosed(string Id)
@@ -419,7 +427,7 @@ public class ArchiveObjectController : Controller
         _service.CreateOrEditArchiveObjectAsync(archiveObject);
         return Ok();
     }
-
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SetObjectToStop(string Id)
